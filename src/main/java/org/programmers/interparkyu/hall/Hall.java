@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.programmers.interparkyu.BaseEntity;
@@ -23,7 +24,8 @@ public class Hall extends BaseEntity {
 
     private Integer seatCount;
 
-    public Hall(String name, Integer seatCount) {
+    @Builder
+    private Hall(String name, Integer seatCount) {
         this.name = name;
         this.seatCount = seatCount;
     }
