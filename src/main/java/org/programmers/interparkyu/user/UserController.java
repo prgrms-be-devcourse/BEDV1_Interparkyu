@@ -22,13 +22,13 @@ public class UserController {
     private UserService userService;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResponse<String> invalidRequestHandler(MethodArgumentNotValidException e) {
-        return ApiResponse.fail(e.getMessage(), "someuri", HttpStatus.BAD_REQUEST);
+    public ApiResponse invalidRequestHandler(MethodArgumentNotValidException e) {
+        return ApiResponse.fail(e.getMessage(), "/v1/users", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ApiResponse<String> invalidRequestHandler(ConstraintViolationException e) {
-        return ApiResponse.fail(e.getMessage(), "someuri", HttpStatus.BAD_REQUEST);
+    public ApiResponse invalidRequestHandler(ConstraintViolationException e) {
+        return ApiResponse.fail(e.getMessage(), "/v1/users", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/users")
