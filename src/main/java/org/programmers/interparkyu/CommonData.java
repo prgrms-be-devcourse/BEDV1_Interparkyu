@@ -11,7 +11,8 @@ public class CommonData {
 
     private final String requestUri;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss", timezone = "Asia/Seoul")
+    // TODO: 2021.10.27 김휘년 TI-67 : timezone = "Asia/Seoul" 걸어주나 안걸어주나 반환값이 같다. 왜 그런지 찾아봐야 한다.
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss")
     private final LocalDateTime timestamp = LocalDateTime.now();
 
     private final Integer internalHttpStatusCode;
