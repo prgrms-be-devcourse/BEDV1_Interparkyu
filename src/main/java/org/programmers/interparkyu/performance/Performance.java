@@ -1,7 +1,6 @@
 package org.programmers.interparkyu.performance;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -30,14 +29,14 @@ public class Performance extends BaseEntity {
 
     private String title;
 
-    private LocalTime runtime;
+    private Integer runtime;
 
     @Enumerated(EnumType.STRING)
     private PerformanceCategory category;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
@@ -47,9 +46,9 @@ public class Performance extends BaseEntity {
     @Builder
     private Performance(
         String title,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
-        LocalTime runtime,
+        LocalDate startDate,
+        LocalDate endDate,
+        Integer runtime,
         PerformanceCategory category
     ) {
         this.title = title;
@@ -59,14 +58,14 @@ public class Performance extends BaseEntity {
         this.category = category;
     }
 
-    public void changeMetaData(String title, LocalTime runtime, PerformanceCategory category) {
+    public void changeMetaData(String title, Integer runtime, PerformanceCategory category) {
         this.title = title;
         this.runtime = runtime;
         this.category = category;
         super.update();
     }
 
-    public void changeDate(LocalDateTime startDate, LocalDateTime endDate) {
+    public void changeDate(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
         super.update();
