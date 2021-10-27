@@ -21,6 +21,11 @@ public class ApiResponse<T> {
         this.data.add(data);
     }
 
+    public static <T> ApiResponse<T> ok(String requestUri) {
+        CommonData common = new CommonData("success", requestUri, HttpStatus.OK);
+        return new ApiResponse<>(common);
+    }
+
     public static <T> ApiResponse<T> ok(String requestUri, T data) {
         CommonData common = new CommonData("success", requestUri, HttpStatus.OK);
         return new ApiResponse<>(common, data);
