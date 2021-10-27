@@ -1,6 +1,7 @@
 package org.programmers.interparkyu.user;
 
 import lombok.AllArgsConstructor;
+import org.programmers.interparkyu.user.domain.User;
 import org.programmers.interparkyu.user.dto.request.CreateUserRequest;
 import org.springframework.stereotype.Service;
 
