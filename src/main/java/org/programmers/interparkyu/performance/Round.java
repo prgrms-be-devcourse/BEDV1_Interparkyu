@@ -14,12 +14,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.programmers.interparkyu.BaseEntity;
 
 @Entity
 @Table(name = "rounds")
 @Getter
 @NoArgsConstructor
-public class Round {
+public class Round extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

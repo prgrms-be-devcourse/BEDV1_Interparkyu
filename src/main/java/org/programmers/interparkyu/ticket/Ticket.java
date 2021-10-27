@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.programmers.interparkyu.BaseEntity;
 import org.programmers.interparkyu.user.User;
 import org.programmers.interparkyu.hall.Seat;
 import org.programmers.interparkyu.performance.Round;
@@ -17,7 +18,7 @@ import org.programmers.interparkyu.performance.Round;
 @Entity
 @Table(name = "tickets")
 @Getter
-public class Ticket {
+public class Ticket extends BaseEntity {
 
     @Id
     private String id;
