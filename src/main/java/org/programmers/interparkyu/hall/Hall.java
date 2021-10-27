@@ -4,11 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.programmers.interparkyu.BaseEntity;
 
 @Entity
+@Table(name = "halls")
 @Getter
 @NoArgsConstructor
 public class Hall extends BaseEntity {

@@ -6,11 +6,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Table(name = "seats")
 @Getter
 @NoArgsConstructor
 public class Seat {
@@ -27,6 +32,11 @@ public class Seat {
     Integer price;
 
     String hallName;
+
+    @ManyToOne
+    @JoinColumn(name = "hall_id", referencedColumnName = "id")
+    @Setter
+    private Hall hall;
 
     @Builder
     private Seat(Section section, Integer sectionSeatNumber, Integer price, String hallName) {

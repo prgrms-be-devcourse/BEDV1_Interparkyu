@@ -8,12 +8,18 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.programmers.interparkyu.BaseEntity;
+import org.programmers.interparkyu.hall.Hall;
 
 @Entity
+@Table(name = "performances")
 @Getter
 @NoArgsConstructor
 public class Performance extends BaseEntity {
@@ -32,6 +38,11 @@ public class Performance extends BaseEntity {
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
+
+    @ManyToOne
+    @JoinColumn(name = "hall_id", referencedColumnName = "id")
+    @Setter
+    private Hall hall;
 
     @Builder
     private Performance(
