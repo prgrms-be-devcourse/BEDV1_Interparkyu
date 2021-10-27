@@ -16,12 +16,12 @@ public class CommonData {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyMMddHHmmss")
     private final LocalDateTime timestamp = LocalDateTime.now();
 
-    private final HttpStatus internalHttpStatusCode;
+    private final Integer internalHttpStatusCode;
 
     @Builder
     public CommonData(String message, String requestUri, HttpStatus statusCode) {
         this.message = message;
         this.requestUri = requestUri;
-        this.internalHttpStatusCode = statusCode;
+        this.internalHttpStatusCode = statusCode.value();
     }
 }
