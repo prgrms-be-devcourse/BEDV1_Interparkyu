@@ -1,15 +1,19 @@
 package org.programmers.interparkyu.performance.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.PerformanceCategory;
 
 public record BriefPerformanceInfo(
-    String title,
-    PerformanceCategory category,
-    String hallName
+    @JsonProperty("title") String title,
+    @JsonProperty("category") PerformanceCategory category,
+    @JsonProperty("hall") String hallName
 ) {
-
-    public static BriefPerformanceInfo from(String title, PerformanceCategory category,
-        String hallName) {
-        return new BriefPerformanceInfo(title, category, hallName);
+    public static BriefPerformanceInfo from(Performance performance) {
+        return new BriefPerformanceInfo(
+            performance.getTitle(),
+            performance.getCategory(),
+            performance.getHall().getName()
+        );
     }
 }

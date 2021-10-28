@@ -19,14 +19,12 @@ public class UserPerformanceController {
         return ApiResponse.fail("Internal Server Error", "", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public UserPerformanceController(
-        UserPerformanceService service) {
+    public UserPerformanceController(UserPerformanceService service) {
         this.service = service;
     }
     
     @GetMapping("/v1/performances")
     public ApiResponse<List<BriefPerformanceInfo>> allPerformanceList() {
-        List<BriefPerformanceInfo> allPerformance = service.getAllPerformance();
-        return ApiResponse.ok("/v1/performances", allPerformance);
+        return ApiResponse.ok("/v1/performances", service.getAllOnStagePerformanceList());
     }
 }
