@@ -5,9 +5,9 @@ import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.PerformanceCategory;
 
 public record BriefPerformanceInfo(
-    @JsonProperty("title") String title,
-    @JsonProperty("category") PerformanceCategory category,
-    @JsonProperty("hall") String hallName
+    String title,
+    PerformanceCategory category,
+    String hallName
 ) {
     public static BriefPerformanceInfo from(Performance performance) {
         return new BriefPerformanceInfo(
