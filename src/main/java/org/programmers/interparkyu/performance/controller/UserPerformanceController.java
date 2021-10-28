@@ -1,23 +1,41 @@
 package org.programmers.interparkyu.performance.controller;
 
+import static org.programmers.interparkyu.performance.controller.UserPerformanceController.performanceRequestBaseUri;
+
 import java.util.List;
+import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.ApiResponse;
 import org.programmers.interparkyu.performance.dto.BriefPerformanceInfo;
 import org.programmers.interparkyu.performance.service.UserPerformanceService;
+import org.programmers.interparkyu.performance.dto.RoundInfo;
+import org.programmers.interparkyu.performance.service.RoundService;
+import org.programmers.interparkyu.performance.dto.DetailPerformanceInfo;
+import org.programmers.interparkyu.performance.dto.PerformanceSummary;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
+@RequestMapping(performanceRequestBaseUri)
 public class UserPerformanceController {
 
-    private final UserPerformanceService service;
+    public static final String performanceRequestBaseUri = "/v1/performances";
 
-    public UserPerformanceController(UserPerformanceService service) {
-        this.service = service;
-    }
+    private final UserPerformanceService userPerformanceService;
+    private final RoundService roundService;
     
-    @GetMapping("/v1/performances")
+    @GetMapping
     public ApiResponse<List<BriefPerformanceInfo>> allPerformanceList() {
-        return ApiResponse.ok("/v1/performances", service.getAllOnStagePerformanceList());
+        return ApiResponse.ok(performanceRequestBaseUri, userPerformanceService.getAllOnStagePerformanceList());
+    }
+
+    @GetMapping("/{performanceId}")
+    public ApiResponse<DetailPerformanceInfo> performanceDetail(@PathVariable Long performanceId) {
+        PerformanceSummary summary = userPerformanceService.getPerformanceById(performanceId);
+        List<RoundInfo> rounds = roundService.getAllRoundByPerformanceId(performanceId);
+        return ApiResponse.ok(performanceRequestBaseUri + "/" + performanceId,
+            DetailPerformanceInfo.from(summary, rounds));
     }
 }
