@@ -59,10 +59,11 @@ public class Performance extends BaseEntity {
         this.hall = hall;
     }
 
-    public void changeMetaData(String title, Integer runtime, PerformanceCategory category) {
+    public void changeMetaData(String title, Integer runtime, PerformanceCategory category, Hall hall) {
         this.title = title;
         this.runtime = runtime;
         this.category = category;
+        this.hall = hall;
     }
 
     public void changeDate(LocalDate startDate, LocalDate endDate) {

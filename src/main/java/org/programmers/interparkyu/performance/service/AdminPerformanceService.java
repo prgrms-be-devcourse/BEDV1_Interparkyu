@@ -3,9 +3,12 @@ package org.programmers.interparkyu.performance.service;
 import static org.programmers.interparkyu.utils.TimeUtil.toLocalDate;
 
 import lombok.AllArgsConstructor;
+import org.programmers.interparkyu.error.exception.NotFoundException;
 import org.programmers.interparkyu.hall.HallService;
 import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.PerformanceCategory;
+import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
+import org.programmers.interparkyu.performance.dto.PerformanceModifyResponse;
 import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;
@@ -32,6 +35,23 @@ public class AdminPerformanceService {
         .build();
 
     return PerformanceCreateResponse.from(performanceRepository.save(performance).getId());
+  }
+
+  @Transactional
+  public PerformanceModifyResponse modifyPerformance(final Long id, PerformanceModifyRequest performanceModifyRequest){
+    Performance performance = performanceRepository.findById(id).orElseThrow(() -> new NotFoundException("해당 공연을 찾을 수 없습니다."));
+    performance.changeMetaData(
+        performanceModifyRequest.title(),
+        Integer.parseInt(performanceModifyRequest.runtime()),
+        PerformanceCategory.of(performanceModifyRequest.category()),
+        hallService.findIdByName(performanceModifyRequest.hallName()));
+
+    performance.changeDate(
+        toLocalDate(performanceModifyRequest.startDate()),
+        toLocalDate(performanceModifyRequest.startDate())
+    );
+
+    return PerformanceModifyResponse.from(performance.getId());
   }
 
 }
