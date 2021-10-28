@@ -2,7 +2,6 @@ package org.programmers.interparkyu.error;
 
 import javax.validation.ConstraintViolationException;
 import org.programmers.interparkyu.ApiResponse;
-import org.programmers.interparkyu.error.exception.InternalException;
 import org.programmers.interparkyu.error.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(InternalException.class)
+  @ExceptionHandler(Exception.class)
   public ApiResponse<String> internalServerErrorHandler(Exception ex) {
     return ApiResponse.fail(ErrorResponse.builder()
         .errorMessage(ex.getMessage())
