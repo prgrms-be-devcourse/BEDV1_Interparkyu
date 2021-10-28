@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService {
 
-    UserRepository repository;
+    private final UserRepository repository;
 
     public Long saveUser(CreateUserRequest request) {
         return repository
