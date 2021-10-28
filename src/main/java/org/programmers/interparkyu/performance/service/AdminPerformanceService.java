@@ -54,4 +54,9 @@ public class AdminPerformanceService {
     return PerformanceModifyResponse.from(performance.getId());
   }
 
+  @Transactional
+  public void deletePerformance(final Long id){
+    performanceRepository.deleteById(id);
+  }
+
 }

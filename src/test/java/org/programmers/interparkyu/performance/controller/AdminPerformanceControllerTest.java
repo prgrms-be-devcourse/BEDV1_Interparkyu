@@ -1,6 +1,7 @@
 package org.programmers.interparkyu.performance.controller;
 
 import static org.programmers.interparkyu.performance.controller.AdminPerformanceController.performanceRequestUri;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
@@ -13,7 +14,6 @@ import org.programmers.interparkyu.hall.HallRepository;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
-import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.programmers.interparkyu.performance.service.AdminPerformanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -124,6 +124,32 @@ class AdminPerformanceControllerTest {
             MockMvcResultMatchers
                 .jsonPath("$.data[0].id")
                 .value(createResponse.id())
+        );
+  }
+
+  @Test
+  @DisplayName("공연 정보를 삭제할 수 있다.")
+  public void deletePerformanceTest() throws Exception {
+    // Given
+    hall = Hall.builder()
+        .name("올림픽홀2")
+        .seatCount(300)
+        .build();
+
+    hallRepository.save(hall);
+
+    PerformanceCreateRequest request = new PerformanceCreateRequest(
+        "방탄소년단", "20301010", "20301110", "180", "CONCERT", "올림픽홀2");
+
+    // When Then
+    mockMvc
+        .perform(
+            delete("/admin/v1/performances/" + adminPerformanceService.createPerformance(request).id())
+        )
+        .andExpect(
+            MockMvcResultMatchers
+                .jsonPath("$.common.internalHttpStatusCode")
+                .value(200)
         );
   }
 

@@ -5,11 +5,13 @@ import static org.programmers.interparkyu.performance.controller.AdminPerformanc
 import java.text.MessageFormat;
 import javax.validation.Valid;
 import org.programmers.interparkyu.ApiResponse;
+import org.programmers.interparkyu.CommonData;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyResponse;
 import org.programmers.interparkyu.performance.service.AdminPerformanceService;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,6 +40,12 @@ public class AdminPerformanceController {
   @PutMapping("/{performanceId}")
   public ApiResponse<PerformanceModifyResponse> modifyPerformance(final @PathVariable Long performanceId, @Valid @RequestBody PerformanceModifyRequest performanceModifyRequest){
     return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(performanceId)), performanceService.modifyPerformance(performanceId, performanceModifyRequest));
+  }
+
+  @DeleteMapping("/{id}")
+  public ApiResponse<String> deletePerformance(final @PathVariable Long id){
+    performanceService.deletePerformance(id);
+    return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(id)));
   }
 
 }
