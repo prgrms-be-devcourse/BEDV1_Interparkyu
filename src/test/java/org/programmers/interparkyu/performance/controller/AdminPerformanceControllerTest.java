@@ -46,7 +46,7 @@ class AdminPerformanceControllerTest {
 
   @Test
   @DisplayName("공연 정보를 등록할 수 있다.")
-  public void save() throws Exception {
+  public void savePerformanceTest() throws Exception {
     // Given
     PerformanceCreateRequest request = new PerformanceCreateRequest(
         "방탄소년단", "20301010", "20301110", "180", "CONCERT", "올림픽홀");
