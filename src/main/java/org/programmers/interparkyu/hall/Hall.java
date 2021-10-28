@@ -32,12 +32,10 @@ public class Hall extends BaseEntity {
 
     public void changeName(String name) {
         this.name = name;
-        super.update();
     }
 
     public void changeSeatCount(Integer seatCount) {
         this.seatCount = seatCount;
-        super.update();
     }
 
 }

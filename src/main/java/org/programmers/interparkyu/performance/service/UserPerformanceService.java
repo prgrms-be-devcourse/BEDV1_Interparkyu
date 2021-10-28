@@ -1,8 +1,10 @@
-package org.programmers.interparkyu.performance;
+package org.programmers.interparkyu.performance.service;
 
 import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.programmers.interparkyu.performance.Performance;
+import org.programmers.interparkyu.performance.repository.UserPerformanceRepository;
 import org.programmers.interparkyu.performance.dto.BriefPerformanceInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
