@@ -1,4 +1,4 @@
-package org.programmers.interparkyu.user.dto;
+package org.programmers.interparkyu.user.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.programmers.interparkyu.user.domain.User;

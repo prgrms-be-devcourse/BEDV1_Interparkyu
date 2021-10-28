@@ -4,7 +4,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.ApiResponse;
-import org.programmers.interparkyu.user.dto.UserResponse;
+import org.programmers.interparkyu.user.dto.response.UserResponse;
 import org.programmers.interparkyu.user.dto.request.CreateUserRequest;
 import org.programmers.interparkyu.user.dto.response.UserIdResponse;
 import org.springframework.http.HttpStatus;
