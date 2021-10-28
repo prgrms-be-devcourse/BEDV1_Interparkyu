@@ -36,7 +36,7 @@ public class AdminPerformanceController {
   }
 
   @PutMapping("/{id}")
-  public ApiResponse<PerformanceModifyResponse> modifyPost(final @PathVariable Long id, @Valid @RequestBody PerformanceModifyRequest performanceModifyRequest){
+  public ApiResponse<PerformanceModifyResponse> modifyPerformance(final @PathVariable Long id, @Valid @RequestBody PerformanceModifyRequest performanceModifyRequest){
     return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(id)), performanceService.modifyPerformance(id, performanceModifyRequest));
   }
 
