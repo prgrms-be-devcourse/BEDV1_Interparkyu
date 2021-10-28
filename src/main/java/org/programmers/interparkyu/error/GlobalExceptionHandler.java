@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(NotFoundException.class)
-  public ApiResponse<ErrorResponse> notFoundException(Exception ex){
+  public ApiResponse<ErrorResponse> notFoundException(NotFoundException ex){
     return ApiResponse.fail(ErrorResponse.builder()
         .errorMessage(ex.getMessage())
         .requestUri("")
