@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.programmers.interparkyu.BaseEntity;
-import org.programmers.interparkyu.user.User;
+import org.programmers.interparkyu.user.domain.User;
 import org.programmers.interparkyu.hall.Seat;
 import org.programmers.interparkyu.performance.Round;
 
