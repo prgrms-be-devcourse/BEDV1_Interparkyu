@@ -131,7 +131,7 @@ class AdminPerformanceControllerTest {
   @DisplayName("공연 정보를 삭제할 수 있다.")
   public void deletePerformanceTest() throws Exception {
     // Given
-    hall = Hall.builder()
+    Hall hall = Hall.builder()
         .name("올림픽홀2")
         .seatCount(300)
         .build();
