@@ -14,7 +14,7 @@ public record BriefPerformanceInfo(
             performance.getTitle(),
             performance.getCategory(),
             performance.getHall().getName(),
-            requestBaseUrl + "/" + performance.getId()
+            String.format("%s/%s", requestBaseUrl, performance.getId())
         );
     }
 }
