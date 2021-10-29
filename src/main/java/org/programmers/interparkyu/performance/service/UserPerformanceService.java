@@ -18,13 +18,13 @@ public class UserPerformanceService {
     private final UserPerformanceRepository repository;
 
     @Transactional(readOnly = true)
-    public List<BriefPerformanceInfo> getAllOnStagePerformanceList() {
+    public List<BriefPerformanceInfo> getAllOnStagePerformanceList(String requestBaseUrl) {
         List<Performance> performances = repository.findAll();
         return performances.stream()
             .filter(performance ->
                 LocalDate.now().isBefore(performance.getEndDate())
             )
-            .map(BriefPerformanceInfo::from).toList();
+            .map(performance -> BriefPerformanceInfo.from(performance, requestBaseUrl)).toList();
     }
 
     @Transactional(readOnly = true)
