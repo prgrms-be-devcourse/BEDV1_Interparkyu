@@ -1,8 +1,12 @@
 package org.programmers.interparkyu.user;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +26,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 class UserControllerTest {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -32,10 +39,11 @@ class UserControllerTest {
     @Transactional
     public void save() throws Exception {
         // Given
-        CreateUserRequest request = new CreateUserRequest("sangmin lee");
+        String name = "sangmin lee";
+        CreateUserRequest request = new CreateUserRequest(name);
 
-        // When Then
-        mockMvc
+        // When
+        var result = mockMvc
             .perform(
                 post("/v1/users")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -46,11 +54,16 @@ class UserControllerTest {
                     .jsonPath("$.common.internalHttpStatusCode")
                     .value(200)
             )
-            .andExpect(
-                MockMvcResultMatchers
-                    .jsonPath("$.data[0].userId")
-                    .value(1L)
-            );
+            .andReturn();
+
+        // Then
+        Long userId = JsonPath
+            .parse(result.getResponse().getContentAsString())
+            .read("$.data[0].userId", Long.class);
+
+        String maybeName = userRepository.getById(userId).getName();
+
+        assertThat(maybeName, equalTo(name));
     }
 
     @Test
@@ -93,6 +106,30 @@ class UserControllerTest {
                 MockMvcResultMatchers
                     .jsonPath("$.common.internalHttpStatusCode")
                     .value(400)
+            );
+    }
+
+    @Test
+    @DisplayName("회원을 ID로 조회할 수 있다")
+    @Transactional
+    public void getUserById() throws Exception {
+        // Given
+        String username = "sangmin lee";
+        User user = new User(username);
+        userRepository.save(user);
+
+        // When Then
+        mockMvc
+            .perform(get("/v1/users/" + user.getId()))
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.common.internalHttpStatusCode")
+                    .value(200)
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data[0].username")
+                    .value(username)
             );
     }
 
