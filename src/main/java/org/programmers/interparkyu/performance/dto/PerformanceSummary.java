@@ -3,16 +3,17 @@ package org.programmers.interparkyu.performance.dto;
 import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.PerformanceCategory;
 
-public record BriefPerformanceInfo(
+public record PerformanceSummary(
     String title,
     PerformanceCategory category,
-    String hallName
+    Integer runtime
 ) {
-    public static BriefPerformanceInfo from(Performance performance) {
-        return new BriefPerformanceInfo(
+
+    public static PerformanceSummary from(Performance performance) {
+        return new PerformanceSummary(
             performance.getTitle(),
             performance.getCategory(),
-            performance.getHall().getName()
+            performance.getRuntime()
         );
     }
 }
