@@ -22,9 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 @ActiveProfiles("test")
 class AdminPerformanceControllerTest {
 
@@ -40,24 +42,21 @@ class AdminPerformanceControllerTest {
   @Autowired
   private AdminPerformanceService adminPerformanceService;
 
-  private Hall hall;
-
-  @BeforeEach
-  void setUp(){
-    hall = Hall.builder()
+  @Test
+  @DisplayName("공연 정보를 등록할 수 있다.")
+  public void savePerformanceTest() throws Exception {
+    // Given
+    Hall hall = Hall.builder()
         .name("올림픽홀")
         .seatCount(300)
         .build();
 
     hallRepository.save(hall);
-  }
 
-  @Test
-  @DisplayName("공연 정보를 등록할 수 있다.")
-  public void savePerformanceTest() throws Exception {
-    // Given
     PerformanceCreateRequest request = new PerformanceCreateRequest(
         "방탄소년단", "20301010", "20301110", "180", "CONCERT", "올림픽홀");
+
+    PerformanceCreateResponse createResponse = adminPerformanceService.createPerformance(request);
 
     // When Then
     mockMvc
@@ -74,7 +73,7 @@ class AdminPerformanceControllerTest {
         .andExpect(
             MockMvcResultMatchers
                 .jsonPath("$.data[0].id")
-                .value(1L)
+                .value(createResponse.id())
         );
   }
 
@@ -82,7 +81,7 @@ class AdminPerformanceControllerTest {
   @DisplayName("공연 정보를 수정할 수 있다.")
   public void modifyPerformanceTest() throws Exception {
     // Given
-    hall = Hall.builder()
+    Hall hall = Hall.builder()
         .name("올림픽홀1")
         .seatCount(300)
         .build();
@@ -124,7 +123,7 @@ class AdminPerformanceControllerTest {
         .andExpect(
             MockMvcResultMatchers
                 .jsonPath("$.data[0].id")
-                .value(2L)
+                .value(createResponse.id())
         );
   }
 

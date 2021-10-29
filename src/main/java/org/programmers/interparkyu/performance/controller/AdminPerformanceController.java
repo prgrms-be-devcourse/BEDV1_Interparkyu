@@ -35,9 +35,9 @@ public class AdminPerformanceController {
     return ApiResponse.ok(performanceRequestUri, performanceService.createPerformance(performanceCreateRequest));
   }
 
-  @PutMapping("/{id}")
-  public ApiResponse<PerformanceModifyResponse> modifyPerformance(final @PathVariable Long id, @Valid @RequestBody PerformanceModifyRequest performanceModifyRequest){
-    return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(id)), performanceService.modifyPerformance(id, performanceModifyRequest));
+  @PutMapping("/{performanceId}")
+  public ApiResponse<PerformanceModifyResponse> modifyPerformance(final @PathVariable Long performanceId, @Valid @RequestBody PerformanceModifyRequest performanceModifyRequest){
+    return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(performanceId)), performanceService.modifyPerformance(performanceId, performanceModifyRequest));
   }
 
 }
