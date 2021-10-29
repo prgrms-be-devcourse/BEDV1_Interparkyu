@@ -20,33 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RequestMapping(performanceRequestBaseUri)
 public class UserPerformanceController {
-    public static final String requestBaseUri = "/v1/performances";
 
     public static final String performanceRequestBaseUri = "/v1/performances";
 
     private final UserPerformanceService userPerformanceService;
+
     private final RoundService roundService;
     
     @GetMapping
     public ApiResponse<List<BriefPerformanceInfo>> allPerformanceList() {
-        return ApiResponse.ok(performanceRequestBaseUri, userPerformanceService.getAllOnStagePerformanceList());
+        // TODO 2021.10.29 TI-86 : 현재는 개발 편의성을 위해 로컬 테스트용 base url을 전달한다. 이후 실제 Url을 전달할 수 있도록 수정해야 한다.
+        String requestBaseUrl = "localhost:8080";
+        return ApiResponse.ok(performanceRequestBaseUri, userPerformanceService.getAllOnStagePerformanceList(requestBaseUrl + performanceRequestBaseUri));
     }
 
     @GetMapping("/{performanceId}")
     public ApiResponse<DetailPerformanceInfo> performanceDetail(@PathVariable Long performanceId) {
         PerformanceSummary summary = userPerformanceService.getPerformanceById(performanceId);
         List<RoundInfo> rounds = roundService.getAllRoundByPerformanceId(performanceId);
-        return ApiResponse.ok(performanceRequestBaseUri + "/" + performanceId,
+        return ApiResponse.ok(String.format("%s/%s", performanceRequestBaseUri, performanceId),
             DetailPerformanceInfo.from(summary, rounds));
-    public UserPerformanceController(UserPerformanceService service) {
-        this.service = service;
-    }
-
-    @GetMapping
-    public ApiResponse<List<BriefPerformanceInfo>> allPerformanceList() {
-        // TODO 2021.10.29 TI-86 : 현재는 개발 편의성을 위해 로컬 테스트용 base url을 전달한다. 이후 실제 Url을 전달할 수 있도록 수정해야 한다.
-        String requestBaseUrl = "localhost:8080";
-        return ApiResponse.ok(requestBaseUri,
-            service.getAllOnStagePerformanceList(requestBaseUrl + requestBaseUri));
     }
 }
