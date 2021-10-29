@@ -95,4 +95,20 @@ class UserPerformanceControllerTest {
                 .value(rounds.get(0).hall()))
             .andDo(print());
     }
+
+    @Test
+    @DisplayName("존재하지 않는 공연에 대한 상세 정보 요청에 NotFoundException이 정상적으로 반환된다.")
+    void requestForWrongDetailPerformanceInfo() throws Exception {
+        mockMvc.perform(get("/v1/performances/" + Integer.MAX_VALUE)
+            .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(status().isOk()) // 통신에는 성공했으므로 기본적으로는 200으로 응답이 돌아온다.
+            .andExpect(MockMvcResultMatchers.jsonPath("$.common.message")
+                .value("No such performance exist")
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.common.internalHttpStatusCode")
+                .value(404)
+            )
+            .andDo(print());
+    }
 }
