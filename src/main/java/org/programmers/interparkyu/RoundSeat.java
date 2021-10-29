@@ -44,6 +44,5 @@ public class RoundSeat extends BaseEntity {
 
     public void changeReservationStatus(ReservationStatus reservationStatus) {
         this.reservationStatus = reservationStatus;
-        super.update();
     }
 }

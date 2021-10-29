@@ -40,7 +40,6 @@ public class Performance extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
-    @Setter
     private Hall hall;
 
     @Builder
@@ -49,25 +48,25 @@ public class Performance extends BaseEntity {
         LocalDate startDate,
         LocalDate endDate,
         Integer runtime,
-        PerformanceCategory category
+        PerformanceCategory category,
+        Hall hall
     ) {
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.runtime = runtime;
         this.category = category;
+        this.hall = hall;
     }
 
     public void changeMetaData(String title, Integer runtime, PerformanceCategory category) {
         this.title = title;
         this.runtime = runtime;
         this.category = category;
-        super.update();
     }
 
     public void changeDate(LocalDate startDate, LocalDate endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
-        super.update();
     }
 }
