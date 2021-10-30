@@ -1,16 +1,20 @@
 package org.programmers.interparkyu.performance.controller;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.programmers.interparkyu.performance.controller.AdminPerformanceController.performanceRequestUri;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.interparkyu.hall.Hall;
 import org.programmers.interparkyu.hall.HallRepository;
+import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
@@ -21,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,10 +61,8 @@ class AdminPerformanceControllerTest {
     PerformanceCreateRequest request = new PerformanceCreateRequest(
         "방탄소년단", "20301010", "20301110", "180", "CONCERT", "올림픽홀");
 
-    PerformanceCreateResponse createResponse = adminPerformanceService.createPerformance(request);
-
     // When Then
-    mockMvc
+    MvcResult result = mockMvc
         .perform(
             post(performanceRequestUri)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,11 +73,14 @@ class AdminPerformanceControllerTest {
                 .jsonPath("$.common.internalHttpStatusCode")
                 .value(200)
         )
-        .andExpect(
-            MockMvcResultMatchers
-                .jsonPath("$.data[0].id")
-                .value(createResponse.id())
-        );
+        .andReturn();
+
+    Long id = JsonPath
+        .parse(result.getResponse().getContentAsString())
+        .read("$.data[0].id", Long.class);
+
+    Performance performance = adminPerformanceService.findPerformanceById(id);
+    assertThat(request.title(), equalTo(performance.getTitle()));
   }
 
   @Test

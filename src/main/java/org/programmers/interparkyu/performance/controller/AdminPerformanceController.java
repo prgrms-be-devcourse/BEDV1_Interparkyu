@@ -43,9 +43,9 @@ public class AdminPerformanceController {
   }
 
   @DeleteMapping("/{performanceId}")
-  public ApiResponse<String> deletePerformance(final @PathVariable Long id){
-    performanceService.deletePerformance(id);
-    return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(id)));
+  public ApiResponse<String> deletePerformance(final @PathVariable Long performanceId){
+    performanceService.deletePerformance(performanceId);
+    return ApiResponse.ok(MessageFormat.format("{0}/{1}", performanceRequestUri, Long.toString(performanceId)));
   }
 
 }
