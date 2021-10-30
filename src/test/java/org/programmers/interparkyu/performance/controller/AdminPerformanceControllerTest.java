@@ -9,11 +9,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.interparkyu.hall.Hall;
-import org.programmers.interparkyu.hall.HallRepository;
+import org.programmers.interparkyu.hall.repository.HallRepository;
 import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;

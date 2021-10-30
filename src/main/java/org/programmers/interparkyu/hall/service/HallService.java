@@ -1,8 +1,9 @@
-package org.programmers.interparkyu.hall;
+package org.programmers.interparkyu.hall.service;
 
 import java.text.MessageFormat;
-import java.util.Optional;
 import org.programmers.interparkyu.error.exception.NotFoundException;
+import org.programmers.interparkyu.hall.Hall;
+import org.programmers.interparkyu.hall.repository.HallRepository;
 import org.springframework.stereotype.Service;
 
 @Service
