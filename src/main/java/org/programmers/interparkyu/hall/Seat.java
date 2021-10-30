@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,12 @@ import lombok.Setter;
 import org.programmers.interparkyu.BaseEntity;
 
 @Entity
-@Table(name = "seats")
+@Table(name = "seats", uniqueConstraints = {
+    @UniqueConstraint(
+        name = "SEAT_UNIQUE",
+        columnNames = {"hall_id", "section", "sectionSeatNumber"}
+    )
+})
 @Getter
 @NoArgsConstructor
 public class Seat extends BaseEntity {
