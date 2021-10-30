@@ -79,7 +79,7 @@ class AdminPerformanceControllerTest {
         .parse(result.getResponse().getContentAsString())
         .read("$.data[0].id", Long.class);
 
-    Performance performance = adminPerformanceService.getPerformanceById(id);
+    Performance performance = adminPerformanceService.findPerformanceById(id);
     assertThat(request.title(), equalTo(performance.getTitle()));
   }
 

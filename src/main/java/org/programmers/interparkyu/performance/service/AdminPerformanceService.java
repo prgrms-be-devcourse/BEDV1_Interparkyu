@@ -2,6 +2,7 @@ package org.programmers.interparkyu.performance.service;
 
 import static org.programmers.interparkyu.utils.TimeUtil.toLocalDate;
 
+import java.text.MessageFormat;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.error.exception.NotFoundException;
 import org.programmers.interparkyu.hall.HallService;
@@ -60,8 +61,9 @@ public class AdminPerformanceService {
   }
 
   @Transactional(readOnly = true)
-  public Performance getPerformanceById(final Long id){
-    return performanceRepository.findById(id).orElseThrow(() -> new NotFoundException("해당 공연을 찾을 수 없습니다."));
+  public Performance findPerformanceById(final Long id){
+    return performanceRepository.findById(id).orElseThrow(() -> new NotFoundException(
+        MessageFormat.format("id : {0}, 해당 공연을 찾을 수 없습니다.", id)));
   }
 
 }
