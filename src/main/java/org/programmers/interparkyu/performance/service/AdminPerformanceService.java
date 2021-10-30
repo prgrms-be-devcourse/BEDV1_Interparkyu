@@ -59,4 +59,9 @@ public class AdminPerformanceService {
     performanceRepository.deleteById(id);
   }
 
+  @Transactional(readOnly = true)
+  public Performance getPerformanceById(final Long id){
+    return performanceRepository.findById(id).orElseThrow(() -> new NotFoundException("해당 공연을 찾을 수 없습니다."));
+  }
+
 }
