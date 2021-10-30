@@ -21,10 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ApiResponse<UserIdResponse> createUser(
-        @Valid @RequestBody
-        CreateUserRequest request
-    ) {
+    public ApiResponse<UserIdResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         Long userId = userService.saveUser(request);
         return ApiResponse.ok(
             "/v1/users",
