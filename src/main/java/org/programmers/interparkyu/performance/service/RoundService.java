@@ -24,6 +24,7 @@ public class RoundService {
 
     @Transactional(readOnly = true)
     public Round findRoundById(final Long id){
-        return repository.findById(id).orElseThrow(() -> new NotFoundException(MessageFormat.format("id : {0} 공연회차가 없습니다.", id)));
+        return repository.findById(id)
+            .orElseThrow(() -> new NotFoundException(MessageFormat.format("id : {0} 공연회차가 없습니다.", id)));
     }
 }
