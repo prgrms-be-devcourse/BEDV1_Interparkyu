@@ -1,5 +1,9 @@
 package org.programmers.interparkyu.performance.dto;
 
+import static org.programmers.interparkyu.utils.TimeUtil.dateFormatter;
+import static org.programmers.interparkyu.utils.TimeUtil.performanceTimeFormatter;
+import static org.programmers.interparkyu.utils.TimeUtil.ticketingTimeFormatter;
+
 import java.time.format.DateTimeFormatter;
 import lombok.Builder;
 import org.programmers.interparkyu.performance.Round;
@@ -18,12 +22,6 @@ public record RoundInfo(
 
     @Builder
     public RoundInfo { }
-
-    public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-
-    public static DateTimeFormatter performanceTimeFormatter = DateTimeFormatter.ofPattern("HHmm");
-
-    public static DateTimeFormatter ticketingTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMssHHmm");
 
     public static RoundInfo from(Round round) {
         return RoundInfo.builder()
