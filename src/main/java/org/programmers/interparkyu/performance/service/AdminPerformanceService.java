@@ -5,7 +5,7 @@ import static org.programmers.interparkyu.utils.TimeUtil.toLocalDate;
 import java.text.MessageFormat;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.error.exception.NotFoundException;
-import org.programmers.interparkyu.hall.HallService;
+import org.programmers.interparkyu.hall.service.HallService;
 import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.PerformanceCategory;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
