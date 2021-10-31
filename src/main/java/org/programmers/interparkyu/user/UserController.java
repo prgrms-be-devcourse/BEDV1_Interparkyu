@@ -1,5 +1,7 @@
 package org.programmers.interparkyu.user;
 
+import static org.programmers.interparkyu.user.UserController.userRequestUri;
+
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.ApiResponse;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/users")
+@RequestMapping(userRequestUri)
 public class UserController {
+
+    public static final String userRequestUri = "/v1/users";
 
     private final UserService userService;
 
@@ -24,7 +28,7 @@ public class UserController {
     public ApiResponse<UserIdResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         Long userId = userService.saveUser(request);
         return ApiResponse.ok(
-            "/v1/users",
+            userRequestUri,
             new UserIdResponse(userId)
         );
     }
@@ -32,7 +36,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
         return ApiResponse.ok(
-            "/v1/users/" + userId,
+            userRequestUri + userId,
             userService.getUserById(userId));
     }
 
