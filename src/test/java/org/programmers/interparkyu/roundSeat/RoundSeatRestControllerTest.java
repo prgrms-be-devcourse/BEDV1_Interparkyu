@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.programmers.interparkyu.ReservationStatus;
 import org.programmers.interparkyu.performance.Performance;
 import org.programmers.interparkyu.performance.Round;
+import org.programmers.interparkyu.performance.dto.RoundDateResponse;
 import org.programmers.interparkyu.performance.dto.RoundInfo;
 import org.programmers.interparkyu.performance.repository.RoundRepository;
 import org.programmers.interparkyu.performance.repository.UserPerformanceRepository;
@@ -46,7 +47,7 @@ class RoundSeatRestControllerTest {
     void getAllRoundSeatsOfRoundOfPerformance() throws Exception {
         List<Performance> performances = userPerformanceRepository.findAll();
         Performance performance = performances.get(0);
-        List<RoundInfo> rounds = roundService.getAllRoundByPerformanceId(performance.getId());
+        List<RoundDateResponse> rounds = roundService.getAllRoundByPerformanceId(performance.getId());
         // TODO 2021.10.30 TI-26 : 여기서 회차의 ID를 받아올 수 있어야 한다. 이후 추가하면 rounds에서 하나의 회차를 골라 그 ID를 사용하도록 수정한다.
         //                         현재는 ID를 받아오지 않으므로 임의로 직접 설정해준다.
         //                         이후 테스트 메서드 내에서 값을 넣어줄 수 있으면 검증하는 값들을 정확하게 확인하도록 수정하자.

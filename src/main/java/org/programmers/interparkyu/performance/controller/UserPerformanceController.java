@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.ApiResponse;
 import org.programmers.interparkyu.performance.dto.BriefPerformanceInfo;
+import org.programmers.interparkyu.performance.dto.RoundDateResponse;
 import org.programmers.interparkyu.performance.service.UserPerformanceService;
 import org.programmers.interparkyu.performance.dto.RoundInfo;
 import org.programmers.interparkyu.performance.service.RoundService;
@@ -37,8 +38,7 @@ public class UserPerformanceController {
     @GetMapping("/{performanceId}")
     public ApiResponse<DetailPerformanceInfo> performanceDetail(@PathVariable Long performanceId) {
         PerformanceSummary summary = userPerformanceService.getPerformanceById(performanceId);
-        List<RoundInfo> rounds = roundService.getAllRoundByPerformanceId(performanceId);
-        return ApiResponse.ok(String.format("%s/%s", performanceRequestBaseUri, performanceId),
-            DetailPerformanceInfo.from(summary, rounds));
+        List<RoundDateResponse> rounds = roundService.getAllRoundByPerformanceId(performanceId);
+        return ApiResponse.ok(String.format("%s/%s", performanceRequestBaseUri, performanceId), DetailPerformanceInfo.from(summary, rounds));
     }
 }

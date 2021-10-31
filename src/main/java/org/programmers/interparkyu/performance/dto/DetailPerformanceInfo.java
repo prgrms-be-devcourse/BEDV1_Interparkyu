@@ -8,12 +8,10 @@ public record DetailPerformanceInfo(
     String title,
     PerformanceCategory category,
     Integer runtime,
-    List<RoundInfo> roundInfo
+    List<RoundDateResponse> roundDate
 ) {
 
-    public static DetailPerformanceInfo from(PerformanceSummary summary, List<RoundInfo> info) {
-        return new DetailPerformanceInfo(
-            summary.title(), summary.category(), summary.runtime(), info
-        );
+    public static DetailPerformanceInfo from(PerformanceSummary summary, List<RoundDateResponse> date) {
+        return new DetailPerformanceInfo(summary.title(), summary.category(), summary.runtime(), date);
     }
 }
