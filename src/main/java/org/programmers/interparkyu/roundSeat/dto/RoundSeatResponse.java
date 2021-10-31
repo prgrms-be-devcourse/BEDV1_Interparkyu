@@ -7,8 +7,9 @@ import org.programmers.interparkyu.hall.Seat;
 import org.programmers.interparkyu.hall.Section;
 
 public record RoundSeatResponse(
-    Long id,
+    Long id,    // 회차 좌석 ID
     ReservationStatus reservationStatus,
+    Integer round,      // 몇 회차인지
     Long seatId,
     Section section,
     Integer sectionSeatNumber,
@@ -21,6 +22,7 @@ public record RoundSeatResponse(
         return RoundSeatResponse.builder()
             .id(roundSeat.getId())
             .reservationStatus(roundSeat.getReservationStatus())
+            .round(roundSeat.getRound().getRound())
             .seatId(seat.getId())
             .section(seat.getSection())
             .sectionSeatNumber(seat.getSectionSeatNumber())

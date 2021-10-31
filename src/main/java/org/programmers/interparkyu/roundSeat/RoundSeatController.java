@@ -10,6 +10,7 @@ import org.programmers.interparkyu.roundSeat.dto.RoundSeatResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,9 +24,9 @@ public class RoundSeatController {
 
     private final SeatService seatService;
 
-    @GetMapping("/{roundId}")
-    public ApiResponse<List<RoundSeatResponse>> allRoundSeat(@PathVariable Long roundId) {
-        return ApiResponse.ok(String.format("%s/%s", roundSeatRequestBaseUri, roundId),
-            roundSeatService.getAllRoundSeatByRoundId(roundId));
+    @GetMapping("/{performanceId}")
+    public ApiResponse<List<RoundSeatResponse>> allRoundSeat(@PathVariable Long performanceId, @RequestParam String date) {
+        return ApiResponse.ok(String.format("%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, date),
+            roundSeatService.getAllRoundSeatByPerformanceIdAndDate(performanceId, date));
     }
 }

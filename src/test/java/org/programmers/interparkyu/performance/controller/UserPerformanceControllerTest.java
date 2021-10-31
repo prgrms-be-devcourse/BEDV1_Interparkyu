@@ -57,7 +57,7 @@ class UserPerformanceControllerTest {
         // TODO: 2021.10.28 TI-25 : 테스트용 데이터를 넣고, 이를 가지고 테스트 하도록 수정해야 한다. -> 반드시 1개 이상의 데이터가 있음을 가정한 테스트이다.
         //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
         List<Performance> performances = userPerformanceRepository.findAll();
-        Performance performance = performances.get(0);
+        Performance performance = performances.get(10);
         List<RoundDateResponse> rounds = roundService.getAllRoundByPerformanceId(performance.getId());
 
         mockMvc.perform(get("/v1/performances/" + performance.getId())

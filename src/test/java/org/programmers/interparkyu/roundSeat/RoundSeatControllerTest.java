@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class RoundSeatRestControllerTest {
+class RoundSeatControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,23 +43,22 @@ class RoundSeatRestControllerTest {
     private RoundSeatService roundSeatService;
 
     @Test
-    @DisplayName("어떤 공연의 한 회차가 선택되었을 때, 해당 회차의 좌석 정보를 정상적으로 받아올 수 있다")
+    @DisplayName("어떤 공연과 날짜가 선택되었을 때, 해당 날짜에 상연하는 모든 회차의 회차좌석 정보를 보내준다.")
     void getAllRoundSeatsOfRoundOfPerformance() throws Exception {
-        List<Performance> performances = userPerformanceRepository.findAll();
-        Performance performance = performances.get(0);
-        List<RoundDateResponse> rounds = roundService.getAllRoundByPerformanceId(performance.getId());
-        // TODO 2021.10.30 TI-26 : 여기서 회차의 ID를 받아올 수 있어야 한다. 이후 추가하면 rounds에서 하나의 회차를 골라 그 ID를 사용하도록 수정한다.
-        //                         현재는 ID를 받아오지 않으므로 임의로 직접 설정해준다.
-        //                         이후 테스트 메서드 내에서 값을 넣어줄 수 있으면 검증하는 값들을 정확하게 확인하도록 수정하자.
-
-        mockMvc.perform(get("/v1/roundSeats/5") // 임의로 "삶은계란구운계란" 공연의 4회차 공연을 선택
-            .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+            get("/v1/roundSeats/19") // 임의로 "꽃다람쥐" 공연의 2022년 1월 10일자 공연을 선택
+                .contentType(MediaType.APPLICATION_JSON)
+                .param( "date", "20220110") // 1회차와 2회차가 상연된다.
+            )
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].id")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].id") // 회차 좌석 ID
                 .isNumber()
             )
             .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].reservationStatus")
                 .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].round") // 몇 회차인지
+                .isNumber()
             )
             .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].seatId")
                 .isNumber()
