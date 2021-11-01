@@ -57,7 +57,7 @@ class UserPerformanceControllerTest {
         //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
         List<Performance> performances = userPerformanceRepository.findAll();
         Performance performance = performances.get(10);
-        List<RoundDateResponse> rounds = roundService.getAllRoundByPerformanceId(performance.getId());
+        List<RoundDateResponse> rounds = roundService.getAllByPerformanceId(performance.getId());
 
         mockMvc.perform(get("/v1/performances/" + performance.getId())
                 .contentType(MediaType.APPLICATION_JSON)

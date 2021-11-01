@@ -23,7 +23,7 @@ public class RoundSeatService {
 
     @Transactional(readOnly = true)
     public List<RoundResponse> getAllRoundAndRoundSeatByPerformanceIdAndDate(Long performanceId, String date) {
-        List<Round> rounds = roundService.getAllRoundByPerformanceIdAndDate(performanceId, TimeUtil.toLocalDate(date));
+        List<Round> rounds = roundService.getAllByPerformanceIdAndDate(performanceId, TimeUtil.toLocalDate(date));
         return rounds.stream().map(round -> {
             List<RoundSeat> roundSeats = roundSeatRepository.findAllByRoundId(round.getId());
             return RoundResponse.from(round, roundSeats);

@@ -37,7 +37,7 @@ public class UserPerformanceController {
     @GetMapping("/{performanceId}")
     public ApiResponse<DetailPerformanceInfo> performanceDetail(@PathVariable Long performanceId) {
         PerformanceSummary summary = userPerformanceService.getPerformanceById(performanceId);
-        List<RoundDateResponse> rounds = roundService.getAllRoundByPerformanceId(performanceId);
+        List<RoundDateResponse> rounds = roundService.getAllByPerformanceId(performanceId);
         return ApiResponse.ok(String.format("%s/%s", performanceRequestBaseUri, performanceId), DetailPerformanceInfo.from(summary, rounds));
     }
 }

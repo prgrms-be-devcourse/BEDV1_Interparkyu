@@ -18,13 +18,13 @@ public class RoundService {
     private final RoundRepository repository;
 
     @Transactional(readOnly = true)
-    public List<RoundDateResponse> getAllRoundByPerformanceId(Long performanceId) {
+    public List<RoundDateResponse> getAllByPerformanceId(Long performanceId) {
         List<Round> rounds = repository.findAllByPerformanceId(performanceId);
         return rounds.stream().map(RoundDateResponse::from).toList();
     }
 
     @Transactional
-    public List<Round> getAllRoundByPerformanceIdAndDate(Long performanceId, LocalDate date) {
+    public List<Round> getAllByPerformanceIdAndDate(Long performanceId, LocalDate date) {
         return repository.findAllByPerformanceIdAndDateOrderByRoundAsc(performanceId, date);
     }
 
