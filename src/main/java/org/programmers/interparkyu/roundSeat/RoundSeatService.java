@@ -3,9 +3,10 @@ package org.programmers.interparkyu.roundSeat;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.RoundSeat;
-import org.programmers.interparkyu.hall.Seat;
 import org.programmers.interparkyu.hall.repository.SeatRepository;
-import org.programmers.interparkyu.roundSeat.dto.RoundSeatResponse;
+import org.programmers.interparkyu.performance.Round;
+import org.programmers.interparkyu.performance.dto.RoundResponse;
+import org.programmers.interparkyu.performance.service.RoundService;
 import org.programmers.interparkyu.utils.TimeUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,16 +17,16 @@ public class RoundSeatService {
 
     private final RoundSeatRepository roundSeatRepository;
 
+    private final RoundService roundService;
+
     private final SeatRepository seatRepository;
 
     @Transactional(readOnly = true)
-    public List<RoundSeatResponse> getAllRoundSeatByPerformanceIdAndDate(Long performanceId, String date) {
-        List<RoundSeat> roundSeats =
-            roundSeatRepository.findAllRoundByPerformanceIdAndDate(performanceId, TimeUtil.toLocalDate(date));
-        return roundSeats.stream()
-            .map(roundSeat -> {
-            Seat seat = roundSeat.getSeat();
-            return RoundSeatResponse.from(seat, roundSeat);
+    public List<RoundResponse> getAllRoundAndRoundSeatByPerformanceIdAndDate(Long performanceId, String date) {
+        List<Round> rounds = roundService.getAllRoundByPerformanceIdAndDate(performanceId, TimeUtil.toLocalDate(date));
+        return rounds.stream().map(round -> {
+            List<RoundSeat> roundSeats = roundSeatRepository.findAllByRoundId(round.getId());
+            return RoundResponse.from(round, roundSeats);
         }).toList();
     }
 }

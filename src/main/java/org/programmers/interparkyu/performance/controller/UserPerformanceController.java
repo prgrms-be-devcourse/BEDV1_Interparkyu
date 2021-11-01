@@ -8,7 +8,6 @@ import org.programmers.interparkyu.ApiResponse;
 import org.programmers.interparkyu.performance.dto.BriefPerformanceInfo;
 import org.programmers.interparkyu.performance.dto.RoundDateResponse;
 import org.programmers.interparkyu.performance.service.UserPerformanceService;
-import org.programmers.interparkyu.performance.dto.RoundInfo;
 import org.programmers.interparkyu.performance.service.RoundService;
 import org.programmers.interparkyu.performance.dto.DetailPerformanceInfo;
 import org.programmers.interparkyu.performance.dto.PerformanceSummary;

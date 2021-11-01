@@ -4,19 +4,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.programmers.interparkyu.ReservationStatus;
-import org.programmers.interparkyu.performance.Performance;
-import org.programmers.interparkyu.performance.Round;
-import org.programmers.interparkyu.performance.dto.RoundDateResponse;
-import org.programmers.interparkyu.performance.dto.RoundInfo;
-import org.programmers.interparkyu.performance.repository.RoundRepository;
 import org.programmers.interparkyu.performance.repository.UserPerformanceRepository;
 import org.programmers.interparkyu.performance.service.RoundService;
-import org.programmers.interparkyu.roundSeat.dto.RoundSeatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,25 +43,52 @@ class RoundSeatControllerTest {
                 .param( "date", "20220110") // 1회차와 2회차가 상연된다.
             )
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].id") // 회차 좌석 ID
-                .isNumber()
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].title")
+                .value("꽃다람쥐")
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].reservationStatus")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].round")
+                .value(1)
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].date")
                 .isString()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].round") // 몇 회차인지
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].remainingSeatsCount")
                 .isNumber()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].seatId")
-                .isNumber()
-            )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].section")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].startTime")
                 .isString()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].sectionSeatNumber")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].endTime")
+                .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].ticketingStartDateTime")
+                .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].ticketingEndDateTime")
+                .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].ticketCancelableUntil")
+                .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].id") // 회차 좌석 ID
                 .isNumber()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].price")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].reservationStatus")
+                .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].round") // 몇 회차인지
+                .isNumber()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].seatId")
+                .isNumber()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].section")
+                .isString()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].sectionSeatNumber")
+                .isNumber()
+            )
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].price")
                 .isNumber()
             )
             .andDo(print());

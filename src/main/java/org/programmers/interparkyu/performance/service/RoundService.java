@@ -1,6 +1,7 @@
 package org.programmers.interparkyu.performance.service;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.error.exception.NotFoundException;
@@ -20,6 +21,11 @@ public class RoundService {
     public List<RoundDateResponse> getAllRoundByPerformanceId(Long performanceId) {
         List<Round> rounds = repository.findAllByPerformanceId(performanceId);
         return rounds.stream().map(RoundDateResponse::from).toList();
+    }
+
+    @Transactional
+    public List<Round> getAllRoundByPerformanceIdAndDate(Long performanceId, LocalDate date) {
+        return repository.findAllByPerformanceIdAndDate(performanceId, date);
     }
 
     @Transactional(readOnly = true)
