@@ -33,7 +33,7 @@ public class RoundSeatController {
 
     @GetMapping("/{performanceId}/{roundNumber}")
     public ApiResponse<List<RoundSeatResponse>> allRoundSeat(@PathVariable Long performanceId, @RequestParam String date, @PathVariable Integer roundNumber) {
-        return ApiResponse.ok(String.format("%s/%s?date=%s&round=%d", roundSeatRequestBaseUri, performanceId, date, roundNumber),
+        return ApiResponse.ok(String.format("%s/%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, roundNumber, date),
             roundSeatService.getAllRoundSeatByPerformanceIdAndDateAndRound(performanceId, date, roundNumber));
     }
 }
