@@ -4,12 +4,13 @@ import static org.programmers.interparkyu.utils.TimeUtil.dateFormatter;
 import static org.programmers.interparkyu.utils.TimeUtil.performanceTimeFormatter;
 import static org.programmers.interparkyu.utils.TimeUtil.ticketingTimeFormatter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Builder;
+import org.programmers.interparkyu.ReservationStatus;
 import org.programmers.interparkyu.RoundSeat;
-import org.programmers.interparkyu.hall.Seat;
 import org.programmers.interparkyu.performance.Round;
-import org.programmers.interparkyu.roundSeat.dto.RoundSeatResponse;
 
 public record RoundResponse(
     String title,
@@ -32,7 +33,7 @@ public record RoundResponse(
 
     String hall,
 
-    List<RoundSeatResponse> roundSeats
+    Map<Integer, Map<String, Integer>> sectionRemainingSeatCount
 ) {
 
     @Builder
@@ -50,14 +51,26 @@ public record RoundResponse(
             .ticketingEndDateTime(round.getTicketingEndDateTime().format(ticketingTimeFormatter))
             .ticketCancelableUntil(round.getTicketCancelableUntil().format(ticketingTimeFormatter))
             .hall(round.getPerformance().getHall().getName())
-            .roundSeats(
-                roundSeats.stream()
-                    .map(roundSeat -> {
-                        Seat seat = roundSeat.getSeat();
-                        return RoundSeatResponse.from(seat, roundSeat);
-                    }).toList()
-            )
+            .sectionRemainingSeatCount(convertFrom(roundSeats))
             .build();
     }
 
+    private static Map<Integer, Map<String, Integer>> convertFrom(List<RoundSeat> roundSeats) {
+        Map<Integer, Map<String, Integer>> map = new HashMap<>(); // < 회차번호 < 섹션이름, 좌석수 > >
+        for (RoundSeat roundSeat : roundSeats) {
+            Round round = roundSeat.getRound();
+            map.putIfAbsent(round.getRound(), new HashMap<>());
+
+            String sectionName = roundSeat.getSeat().getSection().toString();
+            Map<String, Integer> sectionRemainingSeatCountMap = map.get(round.getRound());
+
+            if (roundSeat.getReservationStatus().equals(ReservationStatus.NOT_RESERVED)) {
+                sectionRemainingSeatCountMap.put(sectionName,
+                    sectionRemainingSeatCountMap.getOrDefault(sectionName, 0) + 1
+                );
+            }
+        }
+
+        return map;
+    }
 }

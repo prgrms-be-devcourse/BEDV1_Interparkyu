@@ -35,7 +35,7 @@ class RoundSeatControllerTest {
     private RoundSeatService roundSeatService;
 
     @Test
-    @DisplayName("어떤 공연과 날짜가 선택되었을 때, 해당 날짜에 상연하는 모든 회차의 회차좌석 정보를 보내준다.")
+    @DisplayName("어떤 공연과 날짜가 선택되었을 때, 해당 날짜에 상연하는 각 회차의 잔여 회차좌석 수 를 보내준다.")
     void getAllRoundSeatsOfRoundOfPerformance() throws Exception {
         mockMvc.perform(
             get("/v1/roundSeats/19") // 임의로 "꽃다람쥐" 공연의 2022년 1월 10일자 공연을 선택
@@ -70,26 +70,14 @@ class RoundSeatControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].ticketCancelableUntil")
                 .isString()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].id") // 회차 좌석 ID
-                .isNumber()
-            )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].reservationStatus")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].hall")
                 .isString()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].round") // 몇 회차인지
-                .isNumber()
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].sectionRemainingSeatCount")
+                .isMap()
             )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].seatId")
-                .isNumber()
-            )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].section")
-                .isString()
-            )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].sectionSeatNumber")
-                .isNumber()
-            )
-            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].roundSeats[0].price")
-                .isNumber()
+            .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].sectionRemainingSeatCount.1")
+                .isMap()
             )
             .andDo(print());
     }
