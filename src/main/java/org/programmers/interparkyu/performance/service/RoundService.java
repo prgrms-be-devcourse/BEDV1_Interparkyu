@@ -2,7 +2,10 @@ package org.programmers.interparkyu.performance.service;
 
 import java.text.MessageFormat;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.error.exception.NotFoundException;
 import org.programmers.interparkyu.performance.Round;
@@ -20,6 +23,8 @@ public class RoundService {
     @Transactional(readOnly = true)
     public List<RoundDateResponse> getAllByPerformanceId(Long performanceId) {
         List<Round> rounds = repository.findAllByPerformanceId(performanceId);
+        Set<LocalDate> checkBox = new HashSet<>();
+        rounds = rounds.stream().filter(round -> checkBox.add(round.getDate())).collect(Collectors.toList());
         return rounds.stream().map(RoundDateResponse::from).toList();
     }
 
