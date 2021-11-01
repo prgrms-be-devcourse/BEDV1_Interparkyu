@@ -9,6 +9,7 @@ public record DetailPerformanceResponse(
     String title,
     PerformanceCategory category,
     Integer runtime,
+    String hallName,
     List<RoundDateResponse> roundDate
 ) {
 
@@ -20,6 +21,7 @@ public record DetailPerformanceResponse(
             .title(summary.title())
             .category(summary.category())
             .runtime(summary.runtime())
+            .hallName(summary.hallName())
             .roundDate(date)
             .build();
     }
