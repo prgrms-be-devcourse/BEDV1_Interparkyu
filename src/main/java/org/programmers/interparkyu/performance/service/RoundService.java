@@ -23,9 +23,14 @@ public class RoundService {
         return rounds.stream().map(RoundDateResponse::from).toList();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Round> getAllByPerformanceIdAndDate(Long performanceId, LocalDate date) {
         return repository.findAllByPerformanceIdAndDateOrderByRoundAsc(performanceId, date);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Round> getAllByPerformanceIdAndDateAndRound(Long performanceId, LocalDate date, Integer round) {
+        return repository.findAllByPerformanceIdAndDateAndRoundOrderById(performanceId, date, round);
     }
 
     @Transactional(readOnly = true)

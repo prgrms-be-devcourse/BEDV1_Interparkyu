@@ -9,4 +9,6 @@ public interface RoundRepository extends JpaRepository<Round, Long> {
     List<Round> findAllByPerformanceId(Long performanceId);
 
     List<Round> findAllByPerformanceIdAndDateOrderByRoundAsc(Long performanceId, LocalDate date);
+
+    List<Round> findAllByPerformanceIdAndDateAndRoundOrderById(Long performanceId, LocalDate date, Integer round);
 }
