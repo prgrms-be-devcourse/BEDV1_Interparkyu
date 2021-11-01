@@ -18,7 +18,6 @@ import org.programmers.interparkyu.performance.Round;
 @Entity
 @Table(name = "round_seats")
 @Getter
-@NoArgsConstructor
 public class RoundSeat extends BaseEntity {
 
     @Id
@@ -38,11 +37,15 @@ public class RoundSeat extends BaseEntity {
     @Setter
     private Seat seat;
 
-    public RoundSeat(ReservationStatus reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    public void reserve() {
+        this.reservationStatus = this.reservationStatus.reserve();
     }
 
-    public void changeReservationStatus(ReservationStatus reservationStatus) {
-        this.reservationStatus = reservationStatus;
+    public void cancel() {
+        this.reservationStatus = this.reservationStatus.cancel();
+    }
+
+    public void makeAvailable() {
+        this.reservationStatus = this.reservationStatus.makeAvailable();
     }
 }
