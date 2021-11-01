@@ -25,4 +25,9 @@ public class RoundSeatService {
             return RoundSeatResponse.from(seat, roundSeat);
         }).toList();
     }
+
+    @Transactional(readOnly = true)
+    public RoundSeat getRoundSeatById(Long roundSeatId) {
+        return roundSeatRepository.getById(roundSeatId);
+    }
 }

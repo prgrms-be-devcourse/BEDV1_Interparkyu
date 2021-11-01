@@ -2,6 +2,7 @@ package org.programmers.interparkyu.ticket;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,7 +24,7 @@ import org.programmers.interparkyu.performance.Round;
 public class Ticket extends BaseEntity {
 
     @Id
-    private String id;
+    private String id = UUID.randomUUID().toString();
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus = PaymentStatus.WAITING;
