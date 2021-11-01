@@ -25,7 +25,7 @@ public class RoundService {
 
     @Transactional
     public List<Round> getAllRoundByPerformanceIdAndDate(Long performanceId, LocalDate date) {
-        return repository.findAllByPerformanceIdAndDate(performanceId, date);
+        return repository.findAllByPerformanceIdAndDateOrderByRoundAsc(performanceId, date);
     }
 
     @Transactional(readOnly = true)
