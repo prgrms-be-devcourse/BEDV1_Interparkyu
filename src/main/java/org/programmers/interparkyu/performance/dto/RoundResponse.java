@@ -30,6 +30,8 @@ public record RoundResponse(
 
     String ticketCancelableUntil,
 
+    String hall,
+
     List<RoundSeatResponse> roundSeats
 ) {
 
@@ -47,6 +49,7 @@ public record RoundResponse(
             .ticketingStartDateTime(round.getTicketingStartDateTime().format(ticketingTimeFormatter))
             .ticketingEndDateTime(round.getTicketingEndDateTime().format(ticketingTimeFormatter))
             .ticketCancelableUntil(round.getTicketCancelableUntil().format(ticketingTimeFormatter))
+            .hall(round.getPerformance().getHall().getName())
             .roundSeats(
                 roundSeats.stream()
                     .map(roundSeat -> {
