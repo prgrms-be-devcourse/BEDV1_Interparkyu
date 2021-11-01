@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 public class ApiResponse<T> {
     private CommonData common;
-    private final List<T> data = new ArrayList<>();
+    private T data;
 
     private ApiResponse(CommonData common) {
         this.common = common;
@@ -19,7 +19,7 @@ public class ApiResponse<T> {
 
     private ApiResponse(CommonData common, T data) {
         this.common = common;
-        this.data.add(data);
+        this.data = data;
     }
 
     public static <T> ApiResponse<T> ok(String requestUri) {

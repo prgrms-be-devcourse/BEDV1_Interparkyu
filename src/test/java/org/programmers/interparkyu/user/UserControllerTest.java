@@ -60,7 +60,7 @@ class UserControllerTest {
         // Then
         Long userId = JsonPath
             .parse(result.getResponse().getContentAsString())
-            .read("$.data[0].userId", Long.class);
+            .read("$.data.userId", Long.class);
 
         String maybeName = userRepository.getById(userId).getName();
 
@@ -129,7 +129,7 @@ class UserControllerTest {
             )
             .andExpect(
                 MockMvcResultMatchers
-                    .jsonPath("$.data[0].username")
+                    .jsonPath("$.data.username")
                     .value(username)
             );
     }

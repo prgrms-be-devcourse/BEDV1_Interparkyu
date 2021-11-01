@@ -76,7 +76,7 @@ class AdminPerformanceControllerTest {
 
     Long id = JsonPath
         .parse(result.getResponse().getContentAsString())
-        .read("$.data[0].id", Long.class);
+        .read("$.data.id", Long.class);
 
     Performance performance = adminPerformanceService.findPerformanceById(id);
     assertThat(request.title(), equalTo(performance.getTitle()));
@@ -127,7 +127,7 @@ class AdminPerformanceControllerTest {
         )
         .andExpect(
             MockMvcResultMatchers
-                .jsonPath("$.data[0].id")
+                .jsonPath("$.data.id")
                 .value(createResponse.id())
         );
   }
