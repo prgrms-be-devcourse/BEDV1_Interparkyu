@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(roundSeatRequestBaseUri)
 public class RoundSeatController {
 
-    public static final String roundSeatRequestBaseUri = "/v1/roundSeats";
+    public static final String roundSeatRequestBaseUri = "/v1/performances";
 
     private final RoundSeatService roundSeatService;
 
     private final SeatService seatService;
 
-    @GetMapping("/{performanceId}")
+    @GetMapping("/{performanceId}/round")
     public ApiResponse<List<RoundResponse>> allRoundSeat(@PathVariable Long performanceId, @RequestParam String date) {
         return ApiResponse.ok(String.format("%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, date),
             roundSeatService.getAllRoundAndRoundSeatByPerformanceIdAndDate(performanceId, date));
     }
 
-    @GetMapping("/{performanceId}/{roundNumber}")
+    @GetMapping("/{performanceId}/round/{roundNumber}/seats")
     public ApiResponse<List<RoundSeatResponse>> allRoundSeat(@PathVariable Long performanceId, @RequestParam String date, @PathVariable Integer roundNumber) {
         return ApiResponse.ok(String.format("%s/%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, roundNumber, date),
             roundSeatService.getAllRoundSeatByPerformanceIdAndDateAndRound(performanceId, date, roundNumber));
