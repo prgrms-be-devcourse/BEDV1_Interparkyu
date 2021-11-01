@@ -20,8 +20,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponse getUserById(Long userId) {
+    public UserResponse getUserResponseById(Long userId) {
         return UserResponse.from(repository.getById(userId));
+    }
+
+    @Transactional(readOnly = true)
+    public User getUserById(Long userId) {
+        return repository.getById(userId);
     }
 
 }
