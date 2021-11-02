@@ -58,7 +58,7 @@ class UserPerformanceControllerTest {
         //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
         List<Performance> performances = performanceRepository.findAll();
         Performance performance = performances.get(10);
-        List<RoundDateResponse> rounds = roundService.getAllByPerformanceId(performance.getId());
+        List<RoundDateResponse> rounds = roundService.getAll(performance.getId());
 
         mockMvc.perform(get("/v1/performances/" + performance.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +89,7 @@ class UserPerformanceControllerTest {
             )
             .andExpect(status().isOk()) // 통신에는 성공했으므로 기본적으로는 200으로 응답이 돌아온다.
             .andExpect(MockMvcResultMatchers.jsonPath("$.common.message")
-                .value("No such performance exist")
+                .isString()
             )
             .andExpect(MockMvcResultMatchers.jsonPath("$.common.internalHttpStatusCode")
                 .value(404)

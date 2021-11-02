@@ -42,7 +42,7 @@ public class TicketService {
 
         Round round = roundSeat.getRound();
         Seat seat = roundSeat.getSeat();
-        User user = userService.getUserById(request.userId());
+        User user = userService.getUser(request.userId());
 
         Ticket ticket = new Ticket();
         ticket.setRound(round);

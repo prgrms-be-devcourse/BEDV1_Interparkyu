@@ -43,7 +43,8 @@ public class AdminPerformanceService {
     public PerformanceModifyResponse modifyPerformance(final Long id,
         PerformanceModifyRequest performanceModifyRequest) {
         Performance performance = performanceRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException("해당 공연을 찾을 수 없습니다."));
+            .orElseThrow(() -> new NotFoundException(
+                MessageFormat.format("Cannot find the performance. (ID : {0})", id)));
         performance.changeMetaData(
             performanceModifyRequest.title(),
             Integer.parseInt(performanceModifyRequest.runtime()),
@@ -65,9 +66,9 @@ public class AdminPerformanceService {
     }
 
     @Transactional(readOnly = true)
-    public Performance findPerformanceById(final Long id) {
+    public Performance findPerformance(final Long id) {
         return performanceRepository.findById(id).orElseThrow(() -> new NotFoundException(
-            MessageFormat.format("id : {0}, 해당 공연을 찾을 수 없습니다.", id)));
+            MessageFormat.format("Cannot find the performance. (ID : {0})", id)));
     }
 
 }
