@@ -5,10 +5,15 @@ import org.programmers.interparkyu.hall.domain.Seat;
 import org.programmers.interparkyu.hall.domain.Section;
 
 public record SeatResponse(
+
     Long seatId,
+
     Section section,
+
     Integer sectionSeatNumber,
+
     Integer price
+
 ) {
     @Builder
     public SeatResponse { }

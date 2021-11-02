@@ -6,9 +6,11 @@ import org.programmers.interparkyu.performance.domain.Round;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoundRepository extends JpaRepository<Round, Long> {
+
     List<Round> findAllByPerformanceId(Long performanceId);
 
     List<Round> findAllByPerformanceIdAndDateOrderByRoundAsc(Long performanceId, LocalDate date);
 
     List<Round> findAllByPerformanceIdAndDateAndRoundOrderById(Long performanceId, LocalDate date, Integer round);
+
 }

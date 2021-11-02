@@ -7,11 +7,17 @@ import org.programmers.interparkyu.performance.domain.PerformanceCategory;
 import org.programmers.interparkyu.performance.dto.PerformanceSummary;
 
 public record DetailPerformanceResponse(
+
     String title,
+
     PerformanceCategory category,
+
     Integer runtime,
+
     String hallName,
+
     List<RoundDateResponse> roundDate
+
 ) {
 
     @Builder
@@ -26,4 +32,5 @@ public record DetailPerformanceResponse(
             .roundDate(date)
             .build();
     }
+
 }

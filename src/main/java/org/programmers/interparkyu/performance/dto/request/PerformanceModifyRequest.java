@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
 public record PerformanceModifyRequest(
+
     @NotBlank(message = "제목이 비어있습니다.")
     String title,
 
@@ -23,5 +24,5 @@ public record PerformanceModifyRequest(
 
     @NotBlank(message = "공연장소가 비어있습니다.")
     String hallName
-) {
-}
+
+) {}

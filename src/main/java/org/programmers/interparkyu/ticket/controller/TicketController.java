@@ -27,7 +27,8 @@ public class TicketController {
   private final TicketService ticketService;
 
   @GetMapping("/{ticketId}")
-  public ApiResponse<TicketDetailResponse> getReservationTicketDetail(final @PathVariable String ticketId){
+  public ApiResponse<TicketDetailResponse> getReservationTicketDetail(
+      final @PathVariable String ticketId) {
     return ApiResponse.ok(
         ticketBaseUri + ticketId,
         ticketService.getReservationTicketDetail(ticketId)
@@ -44,4 +45,5 @@ public class TicketController {
     ticketService.completeTicketPayment(ticketId);
     return ApiResponse.ok(ticketBaseUri + ticketId + "/paymentStatus/completed");
   }
+
 }

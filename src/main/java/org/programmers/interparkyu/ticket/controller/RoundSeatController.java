@@ -5,7 +5,6 @@ import static org.programmers.interparkyu.ticket.controller.RoundSeatController.
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.common.dto.ApiResponse;
-import org.programmers.interparkyu.hall.service.SeatService;
 import org.programmers.interparkyu.performance.dto.response.RoundResponse;
 import org.programmers.interparkyu.ticket.dto.response.RoundSeatResponse;
 import org.programmers.interparkyu.ticket.service.RoundSeatService;
@@ -24,17 +23,29 @@ public class RoundSeatController {
 
     private final RoundSeatService roundSeatService;
 
-    private final SeatService seatService;
-
     @GetMapping("/{performanceId}/round")
-    public ApiResponse<List<RoundResponse>> allRoundSeat(@PathVariable Long performanceId, @RequestParam String date) {
-        return ApiResponse.ok(String.format("%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, date),
-            roundSeatService.getAllRoundAndRoundSeatByPerformanceIdAndDate(performanceId, date));
+    public ApiResponse<List<RoundResponse>> allRoundSeat(
+        @PathVariable Long performanceId,
+        @RequestParam String date
+    ) {
+        return ApiResponse.ok(
+            String.format("%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, date),
+            roundSeatService.getAllRoundAndRoundSeat(performanceId, date)
+        );
     }
 
     @GetMapping("/{performanceId}/round/{roundNumber}/seats")
-    public ApiResponse<List<RoundSeatResponse>> allRoundSeat(@PathVariable Long performanceId, @RequestParam String date, @PathVariable Integer roundNumber) {
-        return ApiResponse.ok(String.format("%s/%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, roundNumber, date),
-            roundSeatService.getAllRoundSeatByPerformanceIdAndDateAndRound(performanceId, date, roundNumber));
+    public ApiResponse<List<RoundSeatResponse>> allRoundSeat(
+        @PathVariable Long performanceId,
+        @RequestParam String date,
+        @PathVariable Integer roundNumber
+    ) {
+        return ApiResponse.ok(
+            String.format(
+                "%s/%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, roundNumber, date),
+            roundSeatService.getAllRoundSeat(
+                performanceId, date, roundNumber)
+        );
     }
+
 }

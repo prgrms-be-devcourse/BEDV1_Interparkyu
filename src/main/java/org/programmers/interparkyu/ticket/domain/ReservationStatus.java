@@ -3,6 +3,7 @@ package org.programmers.interparkyu.ticket.domain;
 import org.programmers.interparkyu.common.error.exception.StatusConflictException;
 
 public enum ReservationStatus {
+
     NOT_RESERVED{
         @Override
         public ReservationStatus reserve() {
@@ -23,7 +24,9 @@ public enum ReservationStatus {
         public ReservationStatus makeAvailable() {
             throw new StatusConflictException("seat already not reserved");
         }
+
     },
+
     WAITING_FOR_PAYMENT {
         @Override
         public ReservationStatus reserve() {
@@ -44,7 +47,9 @@ public enum ReservationStatus {
         public ReservationStatus makeAvailable() {
             throw new StatusConflictException("seat waiting for payment cannot be made available");
         }
+
     },
+
     CANCELED {
         @Override
         public ReservationStatus reserve() {
@@ -65,7 +70,9 @@ public enum ReservationStatus {
         public ReservationStatus makeAvailable() {
             return ReservationStatus.NOT_RESERVED;
         }
+
     },
+
     RESERVED {
         @Override
         public ReservationStatus reserve() {
@@ -86,10 +93,15 @@ public enum ReservationStatus {
         public ReservationStatus makeAvailable() {
             throw new StatusConflictException("seat waiting for payment cannot be made available");
         }
+
     };
 
     public abstract ReservationStatus reserve();
+
     public abstract ReservationStatus waitForPayment();
+
     public abstract ReservationStatus cancel();
+
     public abstract ReservationStatus makeAvailable();
+
 }

@@ -5,10 +5,10 @@ import static org.programmers.interparkyu.user.controller.UserController.userReq
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.common.dto.ApiResponse;
-import org.programmers.interparkyu.user.service.UserService;
-import org.programmers.interparkyu.user.dto.response.UserResponse;
 import org.programmers.interparkyu.user.dto.request.CreateUserRequest;
 import org.programmers.interparkyu.user.dto.response.UserIdResponse;
+import org.programmers.interparkyu.user.dto.response.UserResponse;
+import org.programmers.interparkyu.user.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +38,8 @@ public class UserController {
     public ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
         return ApiResponse.ok(
             userRequestUri + userId,
-            userService.getUserResponseById(userId));
+            userService.getUserResponseById(userId)
+        );
     }
 
 }

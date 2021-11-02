@@ -8,11 +8,11 @@ import org.programmers.interparkyu.common.error.exception.NotFoundException;
 import org.programmers.interparkyu.hall.service.HallService;
 import org.programmers.interparkyu.performance.domain.Performance;
 import org.programmers.interparkyu.performance.domain.PerformanceCategory;
+import org.programmers.interparkyu.performance.dto.request.PerformanceCreateRequest;
 import org.programmers.interparkyu.performance.dto.request.PerformanceModifyRequest;
+import org.programmers.interparkyu.performance.dto.response.PerformanceCreateResponse;
 import org.programmers.interparkyu.performance.dto.response.PerformanceModifyResponse;
 import org.programmers.interparkyu.performance.repository.PerformanceRepository;
-import org.programmers.interparkyu.performance.dto.request.PerformanceCreateRequest;
-import org.programmers.interparkyu.performance.dto.response.PerformanceCreateResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,50 +20,54 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AdminPerformanceService {
 
-  private final PerformanceRepository performanceRepository;
+    private final PerformanceRepository performanceRepository;
 
-  private final HallService hallService;
+    private final HallService hallService;
 
-  @Transactional
-  public PerformanceCreateResponse createPerformance(PerformanceCreateRequest performanceCreateRequest){
-    Performance performance = Performance.builder()
-        .title(performanceCreateRequest.title())
-        .startDate(toLocalDate(performanceCreateRequest.startDate()))
-        .endDate(toLocalDate(performanceCreateRequest.endDate()))
-        .runtime(Integer.parseInt(performanceCreateRequest.runtime()))
-        .category(PerformanceCategory.of(performanceCreateRequest.category()))
-        .hall(hallService.findIdByName(performanceCreateRequest.hallName()))
-        .build();
+    @Transactional
+    public PerformanceCreateResponse createPerformance(
+        PerformanceCreateRequest performanceCreateRequest) {
+        Performance performance = Performance.builder()
+            .title(performanceCreateRequest.title())
+            .startDate(toLocalDate(performanceCreateRequest.startDate()))
+            .endDate(toLocalDate(performanceCreateRequest.endDate()))
+            .runtime(Integer.parseInt(performanceCreateRequest.runtime()))
+            .category(PerformanceCategory.of(performanceCreateRequest.category()))
+            .hall(hallService.findIdByName(performanceCreateRequest.hallName()))
+            .build();
 
-    return PerformanceCreateResponse.from(performanceRepository.save(performance).getId());
-  }
+        return PerformanceCreateResponse.from(performanceRepository.save(performance).getId());
+    }
 
-  @Transactional
-  public PerformanceModifyResponse modifyPerformance(final Long id, PerformanceModifyRequest performanceModifyRequest){
-    Performance performance = performanceRepository.findById(id).orElseThrow(() -> new NotFoundException("해당 공연을 찾을 수 없습니다."));
-    performance.changeMetaData(
-        performanceModifyRequest.title(),
-        Integer.parseInt(performanceModifyRequest.runtime()),
-        PerformanceCategory.of(performanceModifyRequest.category()),
-        hallService.findIdByName(performanceModifyRequest.hallName()));
+    @Transactional
+    public PerformanceModifyResponse modifyPerformance(final Long id,
+        PerformanceModifyRequest performanceModifyRequest) {
+        Performance performance = performanceRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException("해당 공연을 찾을 수 없습니다."));
+        performance.changeMetaData(
+            performanceModifyRequest.title(),
+            Integer.parseInt(performanceModifyRequest.runtime()),
+            PerformanceCategory.of(performanceModifyRequest.category()),
+            hallService.findIdByName(performanceModifyRequest.hallName())
+        );
 
-    performance.changeDate(
-        toLocalDate(performanceModifyRequest.startDate()),
-        toLocalDate(performanceModifyRequest.startDate())
-    );
+        performance.changeDate(
+            toLocalDate(performanceModifyRequest.startDate()),
+            toLocalDate(performanceModifyRequest.startDate())
+        );
 
-    return PerformanceModifyResponse.from(performance.getId());
-  }
+        return PerformanceModifyResponse.from(performance.getId());
+    }
 
-  @Transactional
-  public void deletePerformance(final Long id){
-    performanceRepository.deleteById(id);
-  }
+    @Transactional
+    public void deletePerformance(final Long id) {
+        performanceRepository.deleteById(id);
+    }
 
-  @Transactional(readOnly = true)
-  public Performance findPerformanceById(final Long id){
-    return performanceRepository.findById(id).orElseThrow(() -> new NotFoundException(
-        MessageFormat.format("id : {0}, 해당 공연을 찾을 수 없습니다.", id)));
-  }
+    @Transactional(readOnly = true)
+    public Performance findPerformanceById(final Long id) {
+        return performanceRepository.findById(id).orElseThrow(() -> new NotFoundException(
+            MessageFormat.format("id : {0}, 해당 공연을 찾을 수 없습니다.", id)));
+    }
 
 }

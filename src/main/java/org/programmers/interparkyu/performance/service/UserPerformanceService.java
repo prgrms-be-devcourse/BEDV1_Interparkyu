@@ -5,9 +5,9 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.common.error.exception.NotFoundException;
 import org.programmers.interparkyu.performance.domain.Performance;
-import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.programmers.interparkyu.performance.dto.BriefPerformanceInfo;
 import org.programmers.interparkyu.performance.dto.PerformanceSummary;
+import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,4 +33,5 @@ public class UserPerformanceService {
             .orElseThrow(() -> new NotFoundException("No such performance exist"));
         return PerformanceSummary.from(performance);
     }
+
 }

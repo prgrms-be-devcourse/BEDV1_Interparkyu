@@ -8,11 +8,12 @@ import static org.programmers.interparkyu.common.utils.TimeUtil.ticketingTimeFor
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
-import org.programmers.interparkyu.ticket.domain.RoundSeat;
 import org.programmers.interparkyu.hall.domain.Seat;
 import org.programmers.interparkyu.performance.domain.Round;
+import org.programmers.interparkyu.ticket.domain.RoundSeat;
 
 public record RoundSeatResponse(
+
     String title,
 
     Integer round,
@@ -36,7 +37,9 @@ public record RoundSeatResponse(
     Map<Integer, Map<String, Integer>> sectionRemainingSeatCount,
 
     List<RemainingRoundSeatResponse> roundSeats
+
 ) {
+
     @Builder
     public RoundSeatResponse { }
 
@@ -59,4 +62,5 @@ public record RoundSeatResponse(
             }).toList())
             .build();
     }
+
 }

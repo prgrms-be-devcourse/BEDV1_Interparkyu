@@ -10,6 +10,4 @@ public record CreateTicketRequest(
     @Positive
     Long userId
 
-) {
-
-}
+) {}

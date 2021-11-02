@@ -1,6 +1,7 @@
 package org.programmers.interparkyu.performance.domain;
 
 public enum PerformanceCategory {
+
     MUSICAL,
     CONCERT,
     THEATER,

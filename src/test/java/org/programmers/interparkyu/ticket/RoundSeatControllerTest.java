@@ -39,7 +39,7 @@ class RoundSeatControllerTest {
     void getAllRoundSeatsOfRoundOfPerformance() throws Exception {
         mockMvc.perform(get("/v1/performances/19/round") // 임의로 "꽃다람쥐" 공연의 2022년 1월 10일자 공연을 선택
                 .contentType(MediaType.APPLICATION_JSON)
-                .param( "date", "20220110") // 1회차와 2회차가 상연된다.
+                .param("date", "20220110") // 1회차와 2회차가 상연된다.
             )
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].title")
@@ -84,9 +84,10 @@ class RoundSeatControllerTest {
     @Test
     @DisplayName("공연, 날짜, 회차가 선택되었을 때 해당 회차의 모든 회차 좌석 정보를 받아온다.")
     void getAllRoundSeatWhenGivenPerformanceAndDateAndRound() throws Exception {
-        mockMvc.perform(get("/v1/performances/19/round/1/seats") // 임의로 "꽃다람쥐" 공연의 2022년 1월 10일자 1회차 공연을 선택
-                .contentType(MediaType.APPLICATION_JSON)
-                .param( "date", "20220110")
+        mockMvc.perform(
+                get("/v1/performances/19/round/1/seats") // 임의로 "꽃다람쥐" 공연의 2022년 1월 10일자 1회차 공연을 선택
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .param("date", "20220110")
             )
             .andExpect(status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("$.data[0].title")
@@ -151,4 +152,5 @@ class RoundSeatControllerTest {
             )
             .andDo(print());
     }
+
 }

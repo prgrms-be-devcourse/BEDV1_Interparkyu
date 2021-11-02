@@ -29,12 +29,12 @@ public class RoundService {
     }
 
     @Transactional(readOnly = true)
-    public List<Round> getAllByPerformanceIdAndDate(Long performanceId, LocalDate date) {
+    public List<Round> getAll(Long performanceId, LocalDate date) {
         return repository.findAllByPerformanceIdAndDateOrderByRoundAsc(performanceId, date);
     }
 
     @Transactional(readOnly = true)
-    public List<Round> getAllByPerformanceIdAndDateAndRound(Long performanceId, LocalDate date, Integer round) {
+    public List<Round> getAll(Long performanceId, LocalDate date, Integer round) {
         return repository.findAllByPerformanceIdAndDateAndRoundOrderById(performanceId, date, round);
     }
 
@@ -43,4 +43,5 @@ public class RoundService {
         return repository.findById(id)
             .orElseThrow(() -> new NotFoundException(MessageFormat.format("id : {0} 공연회차가 없습니다.", id)));
     }
+
 }

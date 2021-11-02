@@ -9,14 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.interparkyu.ticket.domain.PaymentStatus;
 import org.programmers.interparkyu.ticket.domain.ReservationStatus;
 import org.programmers.interparkyu.ticket.domain.RoundSeat;
-import org.programmers.interparkyu.ticket.service.RoundSeatService;
-import org.programmers.interparkyu.ticket.domain.PaymentStatus;
 import org.programmers.interparkyu.ticket.domain.Ticket;
 import org.programmers.interparkyu.ticket.dto.request.CreateTicketRequest;
-import org.programmers.interparkyu.ticket.service.TicketService;
 import org.programmers.interparkyu.ticket.repository.TicketRepository;
+import org.programmers.interparkyu.ticket.service.RoundSeatService;
+import org.programmers.interparkyu.ticket.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,8 +50,7 @@ class TicketControllerTest {
     @DisplayName("티켓 1개 정보를 가져올 수 있다.")
     public void getReservationTicketDetail() throws Exception {
 
-        //To do
-        //ticket create Api 만들어진 후에 작성 필요
+        //Todo ticket create Api 만들어진 후에 작성 필요
 
     }
 
@@ -85,7 +84,8 @@ class TicketControllerTest {
         ticketService.getReservationTicketDetail(ticketId);
 
         RoundSeat roundSeat = roundSeatService.getRoundSeatById(roundSeatId);
-        assertThat(roundSeat.getReservationStatus(), equalTo(ReservationStatus.WAITING_FOR_PAYMENT));
+        assertThat(
+            roundSeat.getReservationStatus(), equalTo(ReservationStatus.WAITING_FOR_PAYMENT));
     }
 
     @Test

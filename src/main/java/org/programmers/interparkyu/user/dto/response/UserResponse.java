@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.programmers.interparkyu.user.domain.User;
 
 public record UserResponse(
+
     Long id,
 
     @JsonProperty("username")
     String name
+
 ) {
 
     public static UserResponse from(User user) {
