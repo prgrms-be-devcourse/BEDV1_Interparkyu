@@ -41,6 +41,10 @@ public class RoundSeat extends BaseEntity {
         this.reservationStatus = this.reservationStatus.reserve();
     }
 
+    public void waitForPayment() {
+        this.reservationStatus = this.reservationStatus.waitForPayment();
+    }
+
     public void cancel() {
         this.reservationStatus = this.reservationStatus.cancel();
     }

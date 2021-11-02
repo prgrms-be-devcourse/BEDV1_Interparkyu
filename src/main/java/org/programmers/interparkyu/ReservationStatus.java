@@ -6,6 +6,11 @@ public enum ReservationStatus {
     NOT_RESERVED{
         @Override
         public ReservationStatus reserve() {
+            throw new StatusConflictException("must wait for payment before reserve");
+        }
+
+        @Override
+        public ReservationStatus waitForPayment() {
             return ReservationStatus.WAITING_FOR_PAYMENT;
         }
 
@@ -26,6 +31,11 @@ public enum ReservationStatus {
         }
 
         @Override
+        public ReservationStatus waitForPayment() {
+            throw new StatusConflictException("already waiting for payment");
+        }
+
+        @Override
         public ReservationStatus cancel() {
             return ReservationStatus.CANCELED;
         }
@@ -39,6 +49,11 @@ public enum ReservationStatus {
         @Override
         public ReservationStatus reserve() {
             throw new StatusConflictException("canceled seat cannot be reserved");
+        }
+
+        @Override
+        public ReservationStatus waitForPayment() {
+            throw new StatusConflictException("canceled seat cannot wait for payment");
         }
 
         @Override
@@ -58,6 +73,11 @@ public enum ReservationStatus {
         }
 
         @Override
+        public ReservationStatus waitForPayment() {
+            throw new StatusConflictException("seat already reserved");
+        }
+
+        @Override
         public ReservationStatus cancel() {
             return ReservationStatus.CANCELED;
         }
@@ -68,7 +88,8 @@ public enum ReservationStatus {
         }
     };
 
-    abstract public ReservationStatus reserve();
-    abstract public ReservationStatus cancel();
-    abstract public ReservationStatus makeAvailable();
+    public abstract ReservationStatus reserve();
+    public abstract ReservationStatus waitForPayment();
+    public abstract ReservationStatus cancel();
+    public abstract ReservationStatus makeAvailable();
 }
