@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public class CommonData {
+
     private final String message;
 
     private final String requestUri;
@@ -24,4 +25,5 @@ public class CommonData {
         this.requestUri = requestUri;
         this.internalHttpStatusCode = statusCode.value();
     }
+
 }

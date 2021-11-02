@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import org.programmers.interparkyu.performance.domain.Performance;
 import org.programmers.interparkyu.performance.dto.response.RoundDateResponse;
-import org.programmers.interparkyu.performance.repository.UserPerformanceRepository;
+import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.programmers.interparkyu.performance.service.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -27,7 +27,7 @@ class UserPerformanceControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserPerformanceRepository userPerformanceRepository;
+    private PerformanceRepository performanceRepository;
 
     @Autowired
     private RoundService roundService;
@@ -55,7 +55,7 @@ class UserPerformanceControllerTest {
     void getDetailPerformanceInfo() throws Exception {
         // TODO: 2021.10.28 TI-25 : 테스트용 데이터를 넣고, 이를 가지고 테스트 하도록 수정해야 한다. -> 반드시 1개 이상의 데이터가 있음을 가정한 테스트이다.
         //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
-        List<Performance> performances = userPerformanceRepository.findAll();
+        List<Performance> performances = performanceRepository.findAll();
         Performance performance = performances.get(10);
         List<RoundDateResponse> rounds = roundService.getAllByPerformanceId(performance.getId());
 

@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 @NoArgsConstructor
 public class ApiResponse<T> {
+
     private CommonData common;
+
     private T data;
 
     private ApiResponse(CommonData common) {
@@ -31,7 +33,12 @@ public class ApiResponse<T> {
     }
 
     public static <T> ApiResponse<T> fail(ErrorResponse response) {
-        CommonData common = new CommonData(response.errorMessage(), response.requestUri(), response.status());
+        CommonData common = new CommonData(
+            response.errorMessage(),
+            response.requestUri(),
+            response.status()
+        );
         return new ApiResponse<>(common);
     }
+
 }

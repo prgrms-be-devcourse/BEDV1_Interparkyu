@@ -6,7 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.interparkyu.performance.repository.UserPerformanceRepository;
+import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.programmers.interparkyu.performance.service.RoundService;
 import org.programmers.interparkyu.ticket.service.RoundSeatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ class RoundSeatControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private UserPerformanceRepository userPerformanceRepository;
+    private PerformanceRepository performanceRepository;
 
     @Autowired
     private RoundService roundService;
