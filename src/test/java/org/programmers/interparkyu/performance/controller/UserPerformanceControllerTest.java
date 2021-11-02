@@ -1,11 +1,15 @@
 package org.programmers.interparkyu.performance.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.List;
-import org.programmers.interparkyu.performance.Performance;
-import org.programmers.interparkyu.performance.dto.RoundDateResponse;
-import org.programmers.interparkyu.performance.repository.UserPerformanceRepository;
+import org.programmers.interparkyu.performance.domain.Performance;
+import org.programmers.interparkyu.performance.dto.response.RoundDateResponse;
+import org.programmers.interparkyu.performance.repository.PerformanceRepository;
 import org.programmers.interparkyu.performance.service.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,19 +19,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
 class UserPerformanceControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private UserPerformanceRepository userPerformanceRepository;
+    private PerformanceRepository performanceRepository;
 
     @Autowired
     private RoundService roundService;
@@ -39,15 +40,15 @@ class UserPerformanceControllerTest {
         //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
         mockMvc.perform(get("/v1/performances")
                 .contentType(MediaType.APPLICATION_JSON)
-        )
-        .andExpect(status().isOk())
-        .andExpect(MockMvcResultMatchers.jsonPath("$.common.message")
-            .value("success"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.common.requestUri")
-            .value("/v1/performances"))
-        .andExpect(MockMvcResultMatchers.jsonPath("$.common.internalHttpStatusCode")
-            .value(200))
-        .andDo(print()); // 출력 포맷 확인
+            )
+            .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.common.message")
+                .value("success"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.common.requestUri")
+                .value("/v1/performances"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.common.internalHttpStatusCode")
+                .value(200))
+            .andDo(print()); // 출력 포맷 확인
     }
 
     @Test
@@ -55,7 +56,7 @@ class UserPerformanceControllerTest {
     void getDetailPerformanceInfo() throws Exception {
         // TODO: 2021.10.28 TI-25 : 테스트용 데이터를 넣고, 이를 가지고 테스트 하도록 수정해야 한다. -> 반드시 1개 이상의 데이터가 있음을 가정한 테스트이다.
         //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
-        List<Performance> performances = userPerformanceRepository.findAll();
+        List<Performance> performances = performanceRepository.findAll();
         Performance performance = performances.get(10);
         List<RoundDateResponse> rounds = roundService.getAllByPerformanceId(performance.getId());
 
@@ -84,8 +85,8 @@ class UserPerformanceControllerTest {
     @DisplayName("존재하지 않는 공연에 대한 상세 정보 요청에 NotFoundException이 정상적으로 반환된다.")
     void requestForWrongDetailPerformanceInfo() throws Exception {
         mockMvc.perform(get("/v1/performances/" + Integer.MAX_VALUE)
-            .contentType(MediaType.APPLICATION_JSON)
-        )
+                .contentType(MediaType.APPLICATION_JSON)
+            )
             .andExpect(status().isOk()) // 통신에는 성공했으므로 기본적으로는 200으로 응답이 돌아온다.
             .andExpect(MockMvcResultMatchers.jsonPath("$.common.message")
                 .value("No such performance exist")
@@ -95,4 +96,5 @@ class UserPerformanceControllerTest {
             )
             .andDo(print());
     }
+
 }

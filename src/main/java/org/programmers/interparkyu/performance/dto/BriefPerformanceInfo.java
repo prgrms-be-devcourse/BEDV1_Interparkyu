@@ -1,14 +1,20 @@
 package org.programmers.interparkyu.performance.dto;
 
-import org.programmers.interparkyu.performance.Performance;
-import org.programmers.interparkyu.performance.PerformanceCategory;
+import org.programmers.interparkyu.performance.domain.Performance;
+import org.programmers.interparkyu.performance.domain.PerformanceCategory;
 
 public record BriefPerformanceInfo(
+
     String title,
+
     PerformanceCategory category,
+
     String hallName,
+
     String url
+
 ) {
+
     public static BriefPerformanceInfo from(Performance performance, String requestBaseUrl) {
         return new BriefPerformanceInfo(
             performance.getTitle(),
@@ -17,4 +23,5 @@ public record BriefPerformanceInfo(
             String.format("%s/%s", requestBaseUrl, performance.getId())
         );
     }
+
 }

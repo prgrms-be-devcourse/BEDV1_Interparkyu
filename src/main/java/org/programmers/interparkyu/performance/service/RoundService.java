@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
-import org.programmers.interparkyu.error.exception.NotFoundException;
-import org.programmers.interparkyu.performance.Round;
-import org.programmers.interparkyu.performance.dto.RoundDateResponse;
+import org.programmers.interparkyu.common.error.exception.NotFoundException;
+import org.programmers.interparkyu.performance.domain.Round;
+import org.programmers.interparkyu.performance.dto.response.RoundDateResponse;
 import org.programmers.interparkyu.performance.repository.RoundRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +29,12 @@ public class RoundService {
     }
 
     @Transactional(readOnly = true)
-    public List<Round> getAllByPerformanceIdAndDate(Long performanceId, LocalDate date) {
+    public List<Round> getAll(Long performanceId, LocalDate date) {
         return repository.findAllByPerformanceIdAndDateOrderByRoundAsc(performanceId, date);
     }
 
     @Transactional(readOnly = true)
-    public List<Round> getAllByPerformanceIdAndDateAndRound(Long performanceId, LocalDate date, Integer round) {
+    public List<Round> getAll(Long performanceId, LocalDate date, Integer round) {
         return repository.findAllByPerformanceIdAndDateAndRoundOrderById(performanceId, date, round);
     }
 
@@ -43,4 +43,5 @@ public class RoundService {
         return repository.findById(id)
             .orElseThrow(() -> new NotFoundException(MessageFormat.format("id : {0} 공연회차가 없습니다.", id)));
     }
+
 }
