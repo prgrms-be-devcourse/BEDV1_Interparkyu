@@ -15,18 +15,16 @@ public class UserService {
     private final UserRepository repository;
 
     public Long saveUser(CreateUserRequest request) {
-        return repository
-            .save(new User(request.name()))
-            .getId();
+        return repository.save(new User(request.name())).getId();
     }
 
     @Transactional(readOnly = true)
-    public UserResponse getUserResponseById(Long userId) {
+    public UserResponse getUserResponse(final Long userId) {
         return UserResponse.from(repository.getById(userId));
     }
 
     @Transactional(readOnly = true)
-    public User getUserById(Long userId) {
+    public User getUser(Long userId) {
         return repository.getById(userId);
     }
 

@@ -1,10 +1,10 @@
-package org.programmers.interparkyu.performance.dto;
+package org.programmers.interparkyu.performance.dto.response;
 
 import lombok.Builder;
 import org.programmers.interparkyu.performance.domain.Performance;
 import org.programmers.interparkyu.performance.domain.PerformanceCategory;
 
-public record PerformanceSummary(
+public record PerformanceSummaryResponse(
 
     String title,
 
@@ -17,10 +17,10 @@ public record PerformanceSummary(
 ) {
 
     @Builder
-    public PerformanceSummary { }
+    public PerformanceSummaryResponse {}
 
-    public static PerformanceSummary from(Performance performance) {
-        return PerformanceSummary.builder()
+    public static PerformanceSummaryResponse from(Performance performance) {
+        return PerformanceSummaryResponse.builder()
             .title(performance.getTitle())
             .category(performance.getCategory())
             .runtime(performance.getRuntime())

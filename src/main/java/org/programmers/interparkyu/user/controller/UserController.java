@@ -28,18 +28,12 @@ public class UserController {
     @PostMapping
     public ApiResponse<UserIdResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         Long userId = userService.saveUser(request);
-        return ApiResponse.ok(
-            userRequestUri,
-            new UserIdResponse(userId)
-        );
+        return ApiResponse.ok(userRequestUri, new UserIdResponse(userId));
     }
 
     @GetMapping("/{userId}")
-    public ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
-        return ApiResponse.ok(
-            userRequestUri + userId,
-            userService.getUserResponseById(userId)
-        );
+    public ApiResponse<UserResponse> getUser(final @PathVariable Long userId) {
+        return ApiResponse.ok(userRequestUri + userId, userService.getUserResponse(userId));
     }
 
 }
