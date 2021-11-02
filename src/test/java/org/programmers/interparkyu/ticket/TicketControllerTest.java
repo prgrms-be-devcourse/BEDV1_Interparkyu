@@ -2,6 +2,7 @@ package org.programmers.interparkyu.ticket;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,9 @@ class TicketControllerTest {
 
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Autowired
     private RoundSeatService roundSeatService;
@@ -77,6 +81,37 @@ class TicketControllerTest {
 
         RoundSeat roundSeat = roundSeatService.getRoundSeatById(roundSeatId);
         assertThat(roundSeat.getReservationStatus(), equalTo(ReservationStatus.WAITING_FOR_PAYMENT));
+    }
+
+    @Test
+    @DisplayName("티켓을 결제 완료할 수 있다")
+    @Transactional
+    public void testTicketPaymentComplete() throws Exception {
+        // Given
+        Long roundSeatId = 1L;
+        CreateTicketRequest request = new CreateTicketRequest(roundSeatId, 1L);
+
+        MvcResult result = mockMvc
+            .perform(
+                post("/v1/tickets")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(request))
+            )
+            .andReturn();
+
+        String ticketId = JsonPath
+            .parse(result.getResponse().getContentAsString())
+            .read("$.data.ticketId", String.class);
+
+        // When
+        mockMvc.perform(patch("/v1/tickets/" + ticketId + "/paymentStatus/completed"));
+
+        // Then
+        Ticket ticket = ticketRepository.getById(ticketId);
+        assertThat(ticket.getPaymentStatus(), equalTo(PaymentStatus.COMPLETED));
+
+        RoundSeat roundSeat = roundSeatService.getRoundSeatById(roundSeatId);
+        assertThat(roundSeat.getReservationStatus(), equalTo(ReservationStatus.RESERVED));
     }
 
 }
