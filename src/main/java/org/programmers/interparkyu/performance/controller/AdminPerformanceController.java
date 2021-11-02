@@ -4,12 +4,12 @@ import static org.programmers.interparkyu.performance.controller.AdminPerformanc
 
 import java.text.MessageFormat;
 import javax.validation.Valid;
-import org.programmers.interparkyu.ApiResponse;
-import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
-import org.programmers.interparkyu.performance.dto.PerformanceModifyResponse;
+import org.programmers.interparkyu.common.dto.ApiResponse;
+import org.programmers.interparkyu.performance.dto.request.PerformanceModifyRequest;
+import org.programmers.interparkyu.performance.dto.response.PerformanceModifyResponse;
 import org.programmers.interparkyu.performance.service.AdminPerformanceService;
-import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
-import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;
+import org.programmers.interparkyu.performance.dto.request.PerformanceCreateRequest;
+import org.programmers.interparkyu.performance.dto.response.PerformanceCreateResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

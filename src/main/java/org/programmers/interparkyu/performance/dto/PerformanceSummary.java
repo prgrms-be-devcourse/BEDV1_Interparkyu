@@ -1,8 +1,8 @@
 package org.programmers.interparkyu.performance.dto;
 
 import lombok.Builder;
-import org.programmers.interparkyu.performance.Performance;
-import org.programmers.interparkyu.performance.PerformanceCategory;
+import org.programmers.interparkyu.performance.domain.Performance;
+import org.programmers.interparkyu.performance.domain.PerformanceCategory;
 
 public record PerformanceSummary(
     String title,

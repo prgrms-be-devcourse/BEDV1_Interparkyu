@@ -10,7 +10,7 @@ import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import org.programmers.interparkyu.BaseEntity;
+import org.programmers.interparkyu.common.domain.BaseEntity;
 
 @Entity
 @Table(name = "users")

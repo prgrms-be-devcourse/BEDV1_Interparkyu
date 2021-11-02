@@ -1,18 +1,18 @@
 package org.programmers.interparkyu.performance.service;
 
-import static org.programmers.interparkyu.utils.TimeUtil.toLocalDate;
+import static org.programmers.interparkyu.common.utils.TimeUtil.toLocalDate;
 
 import java.text.MessageFormat;
 import lombok.AllArgsConstructor;
-import org.programmers.interparkyu.error.exception.NotFoundException;
+import org.programmers.interparkyu.common.error.exception.NotFoundException;
 import org.programmers.interparkyu.hall.service.HallService;
-import org.programmers.interparkyu.performance.Performance;
-import org.programmers.interparkyu.performance.PerformanceCategory;
-import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
-import org.programmers.interparkyu.performance.dto.PerformanceModifyResponse;
+import org.programmers.interparkyu.performance.domain.Performance;
+import org.programmers.interparkyu.performance.domain.PerformanceCategory;
+import org.programmers.interparkyu.performance.dto.request.PerformanceModifyRequest;
+import org.programmers.interparkyu.performance.dto.response.PerformanceModifyResponse;
 import org.programmers.interparkyu.performance.repository.PerformanceRepository;
-import org.programmers.interparkyu.performance.dto.PerformanceCreateRequest;
-import org.programmers.interparkyu.performance.dto.PerformanceCreateResponse;
+import org.programmers.interparkyu.performance.dto.request.PerformanceCreateRequest;
+import org.programmers.interparkyu.performance.dto.response.PerformanceCreateResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

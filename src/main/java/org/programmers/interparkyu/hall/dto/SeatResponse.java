@@ -1,8 +1,8 @@
 package org.programmers.interparkyu.hall.dto;
 
 import lombok.Builder;
-import org.programmers.interparkyu.hall.Seat;
-import org.programmers.interparkyu.hall.Section;
+import org.programmers.interparkyu.hall.domain.Seat;
+import org.programmers.interparkyu.hall.domain.Section;
 
 public record SeatResponse(
     Long seatId,

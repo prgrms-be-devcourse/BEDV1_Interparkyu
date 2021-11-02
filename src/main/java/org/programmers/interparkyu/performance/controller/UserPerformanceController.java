@@ -4,12 +4,12 @@ import static org.programmers.interparkyu.performance.controller.UserPerformance
 
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.programmers.interparkyu.ApiResponse;
+import org.programmers.interparkyu.common.dto.ApiResponse;
 import org.programmers.interparkyu.performance.dto.BriefPerformanceInfo;
-import org.programmers.interparkyu.performance.dto.RoundDateResponse;
+import org.programmers.interparkyu.performance.dto.response.RoundDateResponse;
 import org.programmers.interparkyu.performance.service.UserPerformanceService;
 import org.programmers.interparkyu.performance.service.RoundService;
-import org.programmers.interparkyu.performance.dto.DetailPerformanceResponse;
+import org.programmers.interparkyu.performance.dto.response.DetailPerformanceResponse;
 import org.programmers.interparkyu.performance.dto.PerformanceSummary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
