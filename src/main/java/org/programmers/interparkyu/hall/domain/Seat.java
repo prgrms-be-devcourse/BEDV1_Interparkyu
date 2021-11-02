@@ -20,7 +20,7 @@ import org.programmers.interparkyu.common.domain.BaseEntity;
 @Table(name = "seats", uniqueConstraints = {
     @UniqueConstraint(
         name = "SEAT_UNIQUE",
-        columnNames = {"hall_id", "section", "sectionSeatNumber"}
+        columnNames = { "hall_id", "section", "sectionSeatNumber" }
     )
 })
 @Getter
@@ -65,4 +65,5 @@ public class Seat extends BaseEntity {
     public void changeHallName(String hallName) {
         this.hallName = hallName;
     }
+
 }
