@@ -5,7 +5,6 @@ import static org.programmers.interparkyu.performance.controller.AdminPerformanc
 import java.text.MessageFormat;
 import javax.validation.Valid;
 import org.programmers.interparkyu.ApiResponse;
-import org.programmers.interparkyu.CommonData;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyRequest;
 import org.programmers.interparkyu.performance.dto.PerformanceModifyResponse;
 import org.programmers.interparkyu.performance.service.AdminPerformanceService;
