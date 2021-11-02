@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.programmers.interparkyu.common.domain.BaseEntity;
 import org.programmers.interparkyu.hall.domain.Seat;
@@ -18,6 +19,7 @@ import org.programmers.interparkyu.performance.domain.Round;
 @Entity
 @Table(name = "round_seats")
 @Getter
+@NoArgsConstructor
 public class RoundSeat extends BaseEntity {
 
     @Id
@@ -29,27 +31,30 @@ public class RoundSeat extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "round_id", referencedColumnName = "id")
-    @Setter
     private Round round;
 
     @ManyToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id")
-    @Setter
     private Seat seat;
 
+    public RoundSeat(Round round, Seat seat) {
+        this.round = round;
+        this.seat = seat;
+    }
+
     public void reserve() {
-        this.reservationStatus = this.reservationStatus.reserve();
+        reservationStatus = reservationStatus.reserve();
     }
 
     public void waitForPayment() {
-        this.reservationStatus = this.reservationStatus.waitForPayment();
+        reservationStatus = reservationStatus.waitForPayment();
     }
 
     public void cancel() {
-        this.reservationStatus = this.reservationStatus.cancel();
+        reservationStatus = reservationStatus.cancel();
     }
 
     public void makeAvailable() {
-        this.reservationStatus = this.reservationStatus.makeAvailable();
+        reservationStatus = reservationStatus.makeAvailable();
     }
 }

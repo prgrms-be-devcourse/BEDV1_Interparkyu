@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.programmers.interparkyu.common.domain.BaseEntity;
 import org.programmers.interparkyu.user.domain.User;
@@ -21,6 +22,7 @@ import org.programmers.interparkyu.performance.domain.Round;
 @Entity
 @Table(name = "tickets")
 @Getter
+@NoArgsConstructor
 public class Ticket extends BaseEntity {
 
     @Id
@@ -31,31 +33,36 @@ public class Ticket extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @Setter
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "round_id", referencedColumnName = "id", nullable = false)
-    @Setter
     private Round round;
 
     @ManyToOne
     @JoinColumn(name = "seat_id", referencedColumnName = "id", nullable = false)
-    @Setter
     private Seat seat;
+
+    public Ticket(User user, Round round, Seat seat) {
+        this.user = user;
+        this.round = round;
+        this.seat = seat;
+    }
 
     public void cancel() {
         LocalDateTime cancelableUntil = round.getTicketCancelableUntil();
 
-        if (LocalDateTime.now().isAfter(cancelableUntil))
-            throw new RuntimeException(
-                MessageFormat.format("ticket was cancelable until {0}", cancelableUntil));
+        if (LocalDateTime.now().isAfter(cancelableUntil)) {
+            throw new TimeE(
+                MessageFormat.format("ticket was cancelable until {0}", cancelableUntil)
+            );
+        }
 
-        this.paymentStatus = this.paymentStatus.cancel();
+        paymentStatus = paymentStatus.cancel();
     }
 
     public void complete() {
-        this.paymentStatus = this.paymentStatus.complete();
+        paymentStatus = paymentStatus.complete();
     }
 
 }

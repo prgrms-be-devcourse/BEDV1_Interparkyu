@@ -1,7 +1,8 @@
 package org.programmers.interparkyu.ticket.controller;
 
-import static org.programmers.interparkyu.ticket.controller.RoundSeatController.roundSeatRequestBaseUri;
+import static org.programmers.interparkyu.ticket.controller.RoundSeatController.roundSeatBaseUri;
 
+import java.text.MessageFormat;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.common.dto.ApiResponse;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(roundSeatRequestBaseUri)
+@RequestMapping(roundSeatBaseUri)
 public class RoundSeatController {
 
-    public static final String roundSeatRequestBaseUri = "/v1/performances";
+    public static final String roundSeatBaseUri = "/v1/performances";
 
     private final RoundSeatService roundSeatService;
 
@@ -29,7 +30,7 @@ public class RoundSeatController {
         @RequestParam String date
     ) {
         return ApiResponse.ok(
-            String.format("%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, date),
+            MessageFormat.format("{0}/{1}?date={2}", roundSeatBaseUri, performanceId, date),
             roundSeatService.getAllRoundAndRoundSeat(performanceId, date)
         );
     }
@@ -41,10 +42,8 @@ public class RoundSeatController {
         @PathVariable Integer roundNumber
     ) {
         return ApiResponse.ok(
-            String.format(
-                "%s/%s/%s?date=%s", roundSeatRequestBaseUri, performanceId, roundNumber, date),
-            roundSeatService.getAllRoundSeat(
-                performanceId, date, roundNumber)
+            MessageFormat.format("{0}/{1}/{2}?date={4}", roundSeatBaseUri, performanceId, roundNumber, date),
+            roundSeatService.getAllRoundSeat(performanceId, date, roundNumber)
         );
     }
 

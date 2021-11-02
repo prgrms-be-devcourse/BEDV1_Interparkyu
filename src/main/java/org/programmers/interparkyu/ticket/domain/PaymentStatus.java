@@ -4,7 +4,8 @@ import org.programmers.interparkyu.common.error.exception.StatusConflictExceptio
 
 public enum PaymentStatus {
 
-    WAITING{
+    WAITING {
+
         @Override
         public PaymentStatus cancel() {
             return PaymentStatus.CANCELED;
@@ -17,7 +18,8 @@ public enum PaymentStatus {
 
     },
 
-    COMPLETED{
+    COMPLETED {
+
         @Override
         public PaymentStatus cancel() {
             return PaymentStatus.CANCELED;
@@ -31,6 +33,7 @@ public enum PaymentStatus {
     },
 
     CANCELED {
+        
         @Override
         public PaymentStatus cancel() {
             throw new StatusConflictException("payment status is already canceled");

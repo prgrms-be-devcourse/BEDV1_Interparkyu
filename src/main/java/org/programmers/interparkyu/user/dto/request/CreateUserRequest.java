@@ -7,4 +7,4 @@ public record CreateUserRequest(
     @NotBlank
     String name
 
-) {}
+) { }
