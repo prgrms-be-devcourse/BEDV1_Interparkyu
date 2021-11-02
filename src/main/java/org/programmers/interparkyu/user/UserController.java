@@ -37,7 +37,7 @@ public class UserController {
     public ApiResponse<UserResponse> getUserById(@PathVariable Long userId) {
         return ApiResponse.ok(
             userRequestUri + userId,
-            userService.getUserById(userId));
+            userService.getUserResponseById(userId));
     }
 
 }
