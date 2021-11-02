@@ -1,8 +1,12 @@
 package org.programmers.interparkyu.roundSeat;
 
+import java.text.MessageFormat;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.programmers.interparkyu.ReservationStatus;
 import org.programmers.interparkyu.RoundSeat;
+import org.programmers.interparkyu.error.exception.NotFoundException;
+import org.programmers.interparkyu.hall.Seat;
 import org.programmers.interparkyu.hall.repository.SeatRepository;
 import org.programmers.interparkyu.performance.Round;
 import org.programmers.interparkyu.performance.dto.RoundResponse;
@@ -43,5 +47,12 @@ public class RoundSeatService {
     @Transactional(readOnly = true)
     public RoundSeat getRoundSeatById(Long roundSeatId) {
         return roundSeatRepository.getById(roundSeatId);
+    }
+
+    @Transactional
+    public RoundSeat getRoundSeat(Round round, Seat seat) {
+        return roundSeatRepository.findByRoundAndSeat(round, seat).orElseThrow(
+            () -> new NotFoundException(MessageFormat.format("roundSeat with round id {0}, seat id {1} not found", round.getId(), seat.getId()))
+        );
     }
 }

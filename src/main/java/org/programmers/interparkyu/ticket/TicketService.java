@@ -5,10 +5,8 @@ import lombok.AllArgsConstructor;
 import org.programmers.interparkyu.RoundSeat;
 import org.programmers.interparkyu.error.exception.NotFoundException;
 import org.programmers.interparkyu.hall.Seat;
-import org.programmers.interparkyu.hall.service.SeatService;
 import org.programmers.interparkyu.performance.Round;
 import org.programmers.interparkyu.roundSeat.RoundSeatService;
-import org.programmers.interparkyu.user.UserRepository;
 import org.programmers.interparkyu.user.UserService;
 import org.programmers.interparkyu.user.domain.User;
 import org.springframework.stereotype.Service;
@@ -36,7 +34,7 @@ public class TicketService {
   public TicketIdResponse createTicket(CreateTicketRequest request) {
     RoundSeat roundSeat = roundSeatService.getRoundSeatById(request.roundSeatId());
     // TODO 2021-11-02 동기화 문제에 대해 더 고민이 필요함
-    roundSeat.reserve();
+    roundSeat.waitForPayment();
 
     Round round = roundSeat.getRound();
     Seat seat = roundSeat.getSeat();
@@ -50,4 +48,19 @@ public class TicketService {
 
     return TicketIdResponse.from(ticket.getId());
   }
+
+  @Transactional
+  public void completeTicketPayment(String ticketId) {
+    Ticket ticket = this.getTicket(ticketId);
+    ticket.complete();
+
+    RoundSeat roundSeat = roundSeatService.getRoundSeat(ticket.getRound(), ticket.getSeat());
+    roundSeat.reserve();
+  }
+
+  private Ticket getTicket(String ticketId) {
+    return ticketRepository.findById(ticketId)
+        .orElseThrow(() -> new NotFoundException(MessageFormat.format("ticket with id {0} not found", ticketId)));
+  }
+
 }
