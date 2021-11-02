@@ -5,6 +5,7 @@ import org.programmers.interparkyu.common.error.exception.StatusConflictExceptio
 public enum ReservationStatus {
 
     NOT_RESERVED{
+
         @Override
         public ReservationStatus reserve() {
             throw new StatusConflictException("must wait for payment before reserve");
@@ -28,6 +29,7 @@ public enum ReservationStatus {
     },
 
     WAITING_FOR_PAYMENT {
+
         @Override
         public ReservationStatus reserve() {
             return ReservationStatus.RESERVED;
@@ -51,6 +53,7 @@ public enum ReservationStatus {
     },
 
     CANCELED {
+
         @Override
         public ReservationStatus reserve() {
             throw new StatusConflictException("canceled seat cannot be reserved");
@@ -74,6 +77,7 @@ public enum ReservationStatus {
     },
 
     RESERVED {
+
         @Override
         public ReservationStatus reserve() {
             throw new StatusConflictException("seat already reserved");

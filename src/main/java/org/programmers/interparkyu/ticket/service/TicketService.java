@@ -44,10 +44,7 @@ public class TicketService {
         Seat seat = roundSeat.getSeat();
         User user = userService.getUser(request.userId());
 
-        Ticket ticket = new Ticket();
-        ticket.setRound(round);
-        ticket.setSeat(seat);
-        ticket.setUser(user);
+        Ticket ticket = new Ticket(user, round, seat);
         ticketRepository.save(ticket);
 
         return TicketIdResponse.from(ticket.getId());

@@ -33,7 +33,7 @@ public record TicketDetailResponse(
 ) {
 
   @Builder
-  public TicketDetailResponse {}
+  public TicketDetailResponse { }
 
   public static TicketDetailResponse from(Ticket ticket){
     Seat seat = ticket.getSeat();
