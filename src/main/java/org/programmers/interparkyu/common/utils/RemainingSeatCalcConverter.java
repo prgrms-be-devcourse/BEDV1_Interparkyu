@@ -19,7 +19,8 @@ public class RemainingSeatCalcConverter {
             Map<String, Integer> sectionRemainingSeatCountMap = map.get(round.getRound());
 
             if (roundSeat.getReservationStatus().equals(ReservationStatus.NOT_RESERVED)) {
-                sectionRemainingSeatCountMap.put(sectionName,
+                sectionRemainingSeatCountMap.put(
+                    sectionName,
                     sectionRemainingSeatCountMap.getOrDefault(sectionName, 0) + 1
                 );
             }
@@ -27,4 +28,5 @@ public class RemainingSeatCalcConverter {
 
         return map;
     }
+
 }

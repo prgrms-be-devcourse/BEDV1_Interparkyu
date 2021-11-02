@@ -13,9 +13,9 @@ public class HallService {
 
     private final HallRepository hallRepository;
 
-    public Hall findIdByName(String hallName) {
+    public Hall findId(String hallName) {
         return hallRepository.findByName(hallName).orElseThrow(() -> new NotFoundException(
-            MessageFormat.format("{0} 공연장이 없습니다.", hallName)));
+            MessageFormat.format("{0} There is no Hall", hallName)));
     }
 
 }

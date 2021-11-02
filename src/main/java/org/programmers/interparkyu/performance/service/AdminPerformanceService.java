@@ -33,7 +33,7 @@ public class AdminPerformanceService {
             .endDate(toLocalDate(performanceCreateRequest.endDate()))
             .runtime(Integer.parseInt(performanceCreateRequest.runtime()))
             .category(PerformanceCategory.of(performanceCreateRequest.category()))
-            .hall(hallService.findIdByName(performanceCreateRequest.hallName()))
+            .hall(hallService.findId(performanceCreateRequest.hallName()))
             .build();
 
         return PerformanceCreateResponse.from(performanceRepository.save(performance).getId());
@@ -48,7 +48,7 @@ public class AdminPerformanceService {
             performanceModifyRequest.title(),
             Integer.parseInt(performanceModifyRequest.runtime()),
             PerformanceCategory.of(performanceModifyRequest.category()),
-            hallService.findIdByName(performanceModifyRequest.hallName())
+            hallService.findId(performanceModifyRequest.hallName())
         );
 
         performance.changeDate(

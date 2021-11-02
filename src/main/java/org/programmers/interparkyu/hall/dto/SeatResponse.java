@@ -13,10 +13,10 @@ public record SeatResponse(
     Integer sectionSeatNumber,
 
     Integer price
-
 ) {
+
     @Builder
-    public SeatResponse { }
+    public SeatResponse {}
 
     public static SeatResponse from(Seat seat) {
         return SeatResponse.builder()
@@ -26,4 +26,5 @@ public record SeatResponse(
             .price(seat.getPrice())
             .build();
     }
+
 }
