@@ -21,7 +21,6 @@ function getRoundsDetailInfo(date) {
     .then(response => response.json())
     .then(function(data) {
         let rounds = data["data"];
-        console.log(rounds)
 
         let roundsDetailDivHtml = "<div>"
         rounds.map(function(round) {
@@ -77,7 +76,6 @@ fetch("http://" + performanceUrl)
 
     let calendarDivHtml = "<div>"
     performance.roundDate.map(function (v) {
-        console.log("date: " + v.date);
         calendarDivHtml += "<button onclick='getRoundsDetailInfo(" + v.date
             + ")'>" + v.date + "</button>"
     })

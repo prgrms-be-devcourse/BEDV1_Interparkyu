@@ -32,8 +32,6 @@ fetch("http://localhost:8080/v1/tickets", {
   fetch("http://localhost:8080/v1/tickets/" + ticketId)
   .then(response => response.json())
   .then(function (data) {
-
-    console.log(data.data);
     // 티켓 정보 보여주기
     let thanks = createNode("h2");
     thanks.innerText = "주문이 성공적으로 접수되었습니다.";

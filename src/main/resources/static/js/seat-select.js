@@ -91,7 +91,6 @@ fetch("http://" + apiUri)
   const hall = dat.hall;
   const sectionRemainingSeatCount = dat.sectionRemainingSeatCount;
   const roundSeats = dat.roundSeats;
-  console.log(roundSeats);
 
   createButtons(mainDiv, roundSeats);
 
