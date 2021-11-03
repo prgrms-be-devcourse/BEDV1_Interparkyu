@@ -189,3 +189,5 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij,java
 .env
+
+/node_modules
