@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.programmers.interparkyu.common.domain.BaseEntity;
+import org.programmers.interparkyu.common.error.exception.TimeExceedException;
 import org.programmers.interparkyu.user.domain.User;
 import org.programmers.interparkyu.hall.domain.Seat;
 import org.programmers.interparkyu.performance.domain.Round;
@@ -53,7 +53,8 @@ public class Ticket extends BaseEntity {
         LocalDateTime cancelableUntil = round.getTicketCancelableUntil();
 
         if (LocalDateTime.now().isAfter(cancelableUntil)) {
-            throw new TimeE(
+            // TODO 메
+            throw new TimeExceedException(
                 MessageFormat.format("ticket was cancelable until {0}", cancelableUntil)
             );
         }
