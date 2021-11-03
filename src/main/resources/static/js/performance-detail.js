@@ -52,7 +52,7 @@ function getRoundsDetailInfo(date) {
 
 function getSeatsDetailInfo(round, date) {
     location.replace(location.href.split('performance-')[0] +
-        "/seat-select.html?url=" + performanceUrl + "/round/" + round
+        "seat-select.html?url=" + performanceUrl + "/round/" + round
         + "/seats?date=" + date)
 
 }

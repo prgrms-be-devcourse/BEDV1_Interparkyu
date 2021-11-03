@@ -32,6 +32,15 @@ function writeSelectedRoundSeatInfo(infoDiv, rs_div_class_string) {
   infoDiv.innerText += "\n가격: " + price + " 원";
 
   payBtn.disabled = false;
+  payBtn.removeEventListener('click', writeSelectedRoundSeatInfo);
+  payBtn.addEventListener('click', () => {
+    location.replace(
+        location.href.split("seat-select.html")[0] + "payment-ready.html?"
+        + "roundSeatId=" + roundSeatId + "&price=" + price + "&section="
+        + section + "&sectionSeatNumber=" + sectionSeatNumber
+    );
+  })
+
 }
 
 function createButtons(mainDiv, roundSeats) {
