@@ -6,11 +6,12 @@ function append(parent, element) {
     return parent.appendChild(element);
 }
 
-function getRound() {
+function getRound(date) {
     const round = document.querySelector('input[name="round"]:checked')
-    
+
     let seatsDetailDivHtml = "<div>"
-    seatsDetailDivHtml += "<button onclick='getSeatsDetailInfo(" + round.value + ")'>" + "조회하기" + "</button>"
+    seatsDetailDivHtml += "<button onclick='getSeatsDetailInfo(" + round.value
+        + ", " + date + ")'>" + "조회하기" + "</button>"
     seatsDetailDivHtml += "</div>"
     seatsDetailDiv.innerHTML = seatsDetailDivHtml
 }
@@ -20,21 +21,25 @@ function getRoundsDetailInfo(date) {
     .then(response => response.json())
     .then(function(data) {
         let rounds = data["data"];
-        console.log(rounds)
 
         let roundsDetailDivHtml = "<div>"
         rounds.map(function(round) {
-            roundsDetailDivHtml += "<input type='radio' name='round' value=" + "\""+ round.round + "\" " + "onclick='getRound()'/>" + round.round + "</input>"
+            roundsDetailDivHtml += "<input type='radio' name='round' value="
+                + "\"" + round.round + "\" " + "onclick=getRound(" + date
+                + ") + />"
+                + round.round + "</input>"
             roundsDetailDivHtml += "<br></br>"
             roundsDetailDivHtml += "startTime : " + round.startTime
             roundsDetailDivHtml += "<br></br>"
             roundsDetailDivHtml += "endTime : " + round.endTime
             roundsDetailDivHtml += "<br></br>"
-            roundsDetailDivHtml += "remainingSeatsCount : " + round.remainingSeatsCount
+            roundsDetailDivHtml += "remainingSeatsCount : "
+                + round.remainingSeatsCount
             roundsDetailDivHtml += "<br></br>"
             var obj = round["sectionRemainingSeatCount"][round.round]
-            for(var key in obj) {
-                roundsDetailDivHtml += "section : " + key + "sectionRemainingSeat : " + obj[key];
+            for (var key in obj) {
+                roundsDetailDivHtml += "section : " + key
+                    + "sectionRemainingSeat : " + obj[key];
                 roundsDetailDivHtml += "<br></br>"
             }
         })
@@ -44,8 +49,11 @@ function getRoundsDetailInfo(date) {
     .then(data => console.log(data));
 }
 
-function getSeatsDetailInfo(round){
-    // "http://" + performanceUrl +"/round/"+ round + "/seats"
+function getSeatsDetailInfo(round, date) {
+    location.replace(location.href.split('performance-')[0] +
+        "seat-select.html?url=" + performanceUrl + "/round/" + round
+        + "/seats?date=" + date)
+
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -67,8 +75,9 @@ fetch("http://" + performanceUrl)
     append(mainDiv, div);
 
     let calendarDivHtml = "<div>"
-    performance.roundDate.map(function(v){
-        calendarDivHtml += "<button onclick='getRoundsDetailInfo(" + v.date + ")'>" + v.date + "</button>"
+    performance.roundDate.map(function (v) {
+        calendarDivHtml += "<button onclick='getRoundsDetailInfo(" + v.date
+            + ")'>" + v.date + "</button>"
     })
 
     calendarDivHtml += "</div>"
