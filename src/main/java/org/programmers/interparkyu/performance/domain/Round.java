@@ -46,7 +46,6 @@ public class Round extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "performance_id", referencedColumnName = "id")
-    @Setter
     private Performance performance;
 
     @Builder
@@ -59,7 +58,8 @@ public class Round extends BaseEntity {
         LocalTime endTime,
         LocalDateTime ticketingStartDateTime,
         LocalDateTime ticketingEndDateTime,
-        LocalDateTime ticketCancelableUntil
+        LocalDateTime ticketCancelableUntil,
+        Performance performance
     ) {
         this.title = title;
         this.round = round;
@@ -70,6 +70,7 @@ public class Round extends BaseEntity {
         this.ticketingStartDateTime = ticketingStartDateTime;
         this.ticketingEndDateTime = ticketingEndDateTime;
         this.ticketCancelableUntil = ticketCancelableUntil;
+        this.performance = performance;
     }
 
     public void changeTitle(String title) {
