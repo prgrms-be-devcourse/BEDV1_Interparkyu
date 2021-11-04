@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.interparkyu.BaseControllerTest;
 import org.programmers.interparkyu.performance.domain.Performance;
 import org.programmers.interparkyu.performance.dto.response.RoundDateResponse;
 import org.programmers.interparkyu.performance.repository.PerformanceRepository;
@@ -22,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class UserPerformanceControllerTest {
+class UserPerformanceControllerTest extends BaseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,8 +37,6 @@ class UserPerformanceControllerTest {
     @Test
     @DisplayName("유저가 홈페이지 진입시 전체 공연 정보를 조회할 수 있다.")
     void getAllPerformaneInBrief() throws Exception {
-        // TODO: 2021.10.28 TI-25 : 테스트용 데이터를 넣고, 이를 가지고 테스트 하도록 수정해야 한다.
-        //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
         mockMvc.perform(get("/v1/performances")
                 .contentType(MediaType.APPLICATION_JSON)
             )
@@ -48,17 +47,15 @@ class UserPerformanceControllerTest {
                 .value("/v1/performances"))
             .andExpect(MockMvcResultMatchers.jsonPath("$.common.internalHttpStatusCode")
                 .value(200))
-            .andDo(print()); // 출력 포맷 확인
+            .andDo(print());
     }
 
     @Test
     @DisplayName("한 공연에 대한 상세 정보를 조회할 수 있다 -> 간단하게 표시할 공연 정보와, 공연이 있는 날짜만 내려준다")
     void getDetailPerformanceInfo() throws Exception {
-        // TODO: 2021.10.28 TI-25 : 테스트용 데이터를 넣고, 이를 가지고 테스트 하도록 수정해야 한다. -> 반드시 1개 이상의 데이터가 있음을 가정한 테스트이다.
-        //                          공연 정보 및 회차 등록 기능이 모두 구현되면 수정하기
         List<Performance> performances = performanceRepository.findAll();
-        Performance performance = performances.get(10);
-        List<RoundDateResponse> rounds = roundService.getAll(performance.getId());
+        Performance performance = performances.get(0);
+        List<RoundDateResponse> roundDates = roundService.getAll(performance.getId());
 
         mockMvc.perform(get("/v1/performances/" + performance.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -77,7 +74,7 @@ class UserPerformanceControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.data.runtime")
                 .value(performance.getRuntime()))
             .andExpect(MockMvcResultMatchers.jsonPath("$.data.roundDate[0].date")
-                .value(rounds.get(0).date()))
+                .value(roundDates.get(0).date()))
             .andDo(print());
     }
 
