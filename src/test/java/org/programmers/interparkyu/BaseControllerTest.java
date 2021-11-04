@@ -33,6 +33,22 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 public class BaseControllerTest {
 
+    protected static Hall givenHall;
+
+    protected static Seat givenSeatA1;
+
+    protected static Performance givenPerformance;
+
+    protected static Round givenRound;
+
+    protected static RoundSeat givenReservedRoundSeat;
+
+    protected static RoundSeat givenUnReservedRoundSeat;
+
+    protected static Ticket givenTicket;
+
+    protected static User givenUser;
+
     @Autowired
     private HallRepository hallRepository;
 
@@ -53,15 +69,6 @@ public class BaseControllerTest {
 
     @Autowired
     private UserRepository userRepository;
-
-    protected static Hall givenHall;
-    protected static Seat givenSeatA1;
-    protected static Performance givenPerformance;
-    protected static Round givenRound;
-    protected static RoundSeat givenReservedRoundSeat;
-    protected static RoundSeat givenUnReservedRoundSeat;
-    protected static Ticket givenTicket;
-    protected static User givenUser;
 
     @BeforeEach
     public void setupData() {
@@ -92,6 +99,8 @@ public class BaseControllerTest {
             .title("무야호~ 더 뮤지컬")
             .runtime(180)
             .category(PerformanceCategory.MUSICAL)
+            .startDate(LocalDate.now().plusDays(30))
+            .endDate(LocalDate.now().plusDays(120))
             .hall(givenHall)
             .build();
         performanceRepository.save(givenPerformance);
