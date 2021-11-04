@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.interparkyu.BaseControllerTest;
 import org.programmers.interparkyu.ticket.domain.PaymentStatus;
 import org.programmers.interparkyu.ticket.domain.ReservationStatus;
 import org.programmers.interparkyu.ticket.domain.RoundSeat;
@@ -18,18 +19,13 @@ import org.programmers.interparkyu.ticket.repository.TicketRepository;
 import org.programmers.interparkyu.ticket.service.RoundSeatService;
 import org.programmers.interparkyu.ticket.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Transactional
-class TicketControllerTest {
+class TicketControllerTest extends BaseControllerTest {
 
     @Autowired
     private TicketService ticketService;
@@ -59,8 +55,9 @@ class TicketControllerTest {
     @Transactional
     public void testCreateTicket() throws Exception {
         // Given
-        Long roundSeatId = 1L;
-        CreateTicketRequest request = new CreateTicketRequest(roundSeatId, 1L);
+        Long roundSeatId = givenUnReservedRoundSeat.getId();
+        Long userId = givenUser.getId();
+        CreateTicketRequest request = new CreateTicketRequest(roundSeatId, userId);
 
         // When
         MvcResult result = mockMvc
@@ -83,7 +80,7 @@ class TicketControllerTest {
 
         ticketService.getReservationTicketDetail(ticketId);
 
-        RoundSeat roundSeat = roundSeatService.getRoundSeatById(roundSeatId);
+        RoundSeat roundSeat = roundSeatService.getRoundSeat(roundSeatId);
         assertThat(
             roundSeat.getReservationStatus(), equalTo(ReservationStatus.WAITING_FOR_PAYMENT));
     }
@@ -93,20 +90,8 @@ class TicketControllerTest {
     @Transactional
     public void testTicketPaymentComplete() throws Exception {
         // Given
-        Long roundSeatId = 1L;
-        CreateTicketRequest request = new CreateTicketRequest(roundSeatId, 1L);
-
-        MvcResult result = mockMvc
-            .perform(
-                post("/v1/tickets")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request))
-            )
-            .andReturn();
-
-        String ticketId = JsonPath
-            .parse(result.getResponse().getContentAsString())
-            .read("$.data.ticketId", String.class);
+        String ticketId = givenTicket.getId();
+        Long roundSeatId = givenReservedRoundSeat.getId();
 
         // When
         mockMvc.perform(patch("/v1/tickets/" + ticketId + "/paymentStatus/completed"));
@@ -115,7 +100,7 @@ class TicketControllerTest {
         Ticket ticket = ticketRepository.getById(ticketId);
         assertThat(ticket.getPaymentStatus(), equalTo(PaymentStatus.COMPLETED));
 
-        RoundSeat roundSeat = roundSeatService.getRoundSeatById(roundSeatId);
+        RoundSeat roundSeat = roundSeatService.getRoundSeat(roundSeatId);
         assertThat(roundSeat.getReservationStatus(), equalTo(ReservationStatus.RESERVED));
     }
 

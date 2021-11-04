@@ -42,15 +42,21 @@ public class Seat extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "hall_id", referencedColumnName = "id")
-    @Setter
     private Hall hall;
 
     @Builder
-    private Seat(Section section, Integer sectionSeatNumber, Integer price, String hallName) {
+    private Seat(
+        Section section,
+        Integer sectionSeatNumber,
+        Integer price,
+        String hallName,
+        Hall hall
+    ) {
         this.section = section;
         this.sectionSeatNumber = sectionSeatNumber;
         this.price = price;
         this.hallName = hallName;
+        this.hall = hall;
     }
 
     public void changeSectionData(Section section, Integer sectionSeatNumber) {

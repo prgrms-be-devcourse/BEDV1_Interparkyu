@@ -44,7 +44,7 @@ public class RoundSeatService {
     }
 
     @Transactional(readOnly = true)
-    public RoundSeat getRoundSeatById(Long roundSeatId) {
+    public RoundSeat getRoundSeat(Long roundSeatId) {
         return roundSeatRepository.getById(roundSeatId);
     }
 
