@@ -2,6 +2,9 @@ package org.programmers.interparkyu.ticket;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.programmers.interparkyu.common.utils.TimeUtil.dateFormatter;
+import static org.programmers.interparkyu.common.utils.TimeUtil.performanceTimeFormatter;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -10,6 +13,8 @@ import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.interparkyu.BaseControllerTest;
+import org.programmers.interparkyu.hall.domain.Seat;
+import org.programmers.interparkyu.performance.domain.Round;
 import org.programmers.interparkyu.ticket.domain.PaymentStatus;
 import org.programmers.interparkyu.ticket.domain.ReservationStatus;
 import org.programmers.interparkyu.ticket.domain.RoundSeat;
@@ -18,6 +23,7 @@ import org.programmers.interparkyu.ticket.dto.request.CreateTicketRequest;
 import org.programmers.interparkyu.ticket.repository.TicketRepository;
 import org.programmers.interparkyu.ticket.service.RoundSeatService;
 import org.programmers.interparkyu.ticket.service.TicketService;
+import org.programmers.interparkyu.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,9 +51,63 @@ class TicketControllerTest extends BaseControllerTest {
     @Test
     @DisplayName("티켓 1개 정보를 가져올 수 있다.")
     public void getReservationTicketDetail() throws Exception {
+        // Given
+        Seat givenSeat = givenTicket.getSeat();
+        Round givenRound = givenTicket.getRound();
 
-        //Todo ticket create Api 만들어진 후에 작성 필요
-
+        // When Then
+        mockMvc
+            .perform(get("/v1/tickets/" + givenTicket.getId()))
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.common.internalHttpStatusCode")
+                    .value(200)
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.ticketId")
+                    .value(givenTicket.getId())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.section")
+                    .value(givenSeat.getSection().toString())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.sectionSeatNumber")
+                    .value(givenSeat.getSectionSeatNumber())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.price")
+                    .value(givenSeat.getPrice())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.hallName")
+                    .value(givenSeat.getHallName())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.title")
+                    .value(givenRound.getTitle())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.round")
+                    .value(givenRound.getRound())
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.date")
+                    .value(givenRound.getDate().format(dateFormatter))
+            )
+            .andExpect(
+                MockMvcResultMatchers
+                    .jsonPath("$.data.startTime")
+                    .value(givenRound.getStartTime().format(performanceTimeFormatter))
+            );
     }
 
     @Test
