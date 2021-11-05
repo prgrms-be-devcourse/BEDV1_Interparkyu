@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.interparkyu.user.domain.User;
 import org.programmers.interparkyu.user.dto.request.CreateUserRequest;
+import org.programmers.interparkyu.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,7 +61,7 @@ class UserControllerTest {
         // Then
         Long userId = JsonPath
             .parse(result.getResponse().getContentAsString())
-            .read("$.data[0].userId", Long.class);
+            .read("$.data.userId", Long.class);
 
         String maybeName = userRepository.getById(userId).getName();
 
@@ -70,7 +71,7 @@ class UserControllerTest {
     @Test
     @DisplayName("이름이 빈 회원은 생성할 수 없다")
     @Transactional
-    public void saveUserWithBlankName() throws Exception{
+    public void saveUserWithBlankName() throws Exception {
         // Given
         CreateUserRequest request = new CreateUserRequest(" ");
 
@@ -91,9 +92,9 @@ class UserControllerTest {
     @Test
     @DisplayName("이름이 제한 길이를 초과인 회원은 생성할 수 없다")
     @Transactional
-    public void saveUserWithInvalidLengthName() throws Exception{
+    public void saveUserWithInvalidLengthName() throws Exception {
         // Given
-        String name = new String(new char[User.getMAX_NAME_LENGTH()+1]).replace('\0', 'a');
+        String name = new String(new char[User.getMAX_NAME_LENGTH() + 1]).replace('\0', 'a');
         CreateUserRequest request = new CreateUserRequest(name);
 
         // When Then
@@ -129,7 +130,7 @@ class UserControllerTest {
             )
             .andExpect(
                 MockMvcResultMatchers
-                    .jsonPath("$.data[0].username")
+                    .jsonPath("$.data.username")
                     .value(username)
             );
     }
