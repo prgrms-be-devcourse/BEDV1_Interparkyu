@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.programmers.interparkyu.common.domain.BaseEntity;
@@ -30,6 +31,9 @@ public class Ticket extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus = PaymentStatus.WAITING;
+
+    @Version
+    private int version;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
