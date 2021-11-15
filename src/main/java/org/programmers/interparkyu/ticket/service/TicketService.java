@@ -36,7 +36,7 @@ public class TicketService {
 
     @Transactional
     public TicketIdResponse createTicket(CreateTicketRequest request) {
-        RoundSeat roundSeat = roundSeatService.getRoundSeat(request.roundSeatId());
+        RoundSeat roundSeat = roundSeatService.getRoundSeatAndLock(request.roundSeatId());
         // TODO 2021-11-02 동기화 문제에 대해 더 고민이 필요함
         roundSeat.waitForPayment();
 

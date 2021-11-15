@@ -48,6 +48,10 @@ public class RoundSeatService {
         return roundSeatRepository.getById(roundSeatId);
     }
 
+    public RoundSeat getRoundSeatAndLock(Long roundSeatId) {
+        return roundSeatRepository.readById(roundSeatId);
+    }
+
     @Transactional
     public RoundSeat getRoundSeat(Round round, Seat seat) {
         return roundSeatRepository.findByRoundAndSeat(round, seat).orElseThrow(

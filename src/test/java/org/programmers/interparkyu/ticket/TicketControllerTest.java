@@ -10,11 +10,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.interparkyu.BaseControllerTest;
 import org.programmers.interparkyu.hall.domain.Seat;
 import org.programmers.interparkyu.performance.domain.Round;
+import org.programmers.interparkyu.performance.repository.RoundRepository;
 import org.programmers.interparkyu.ticket.domain.PaymentStatus;
 import org.programmers.interparkyu.ticket.domain.ReservationStatus;
 import org.programmers.interparkyu.ticket.domain.RoundSeat;
@@ -40,6 +45,9 @@ class TicketControllerTest extends BaseControllerTest {
     private TicketRepository ticketRepository;
 
     @Autowired
+    private RoundRepository roundRepository;
+
+    @Autowired
     private RoundSeatService roundSeatService;
 
     @Autowired
@@ -47,6 +55,9 @@ class TicketControllerTest extends BaseControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     @DisplayName("티켓 1개 정보를 가져올 수 있다.")
@@ -118,6 +129,7 @@ class TicketControllerTest extends BaseControllerTest {
         Long roundSeatId = givenUnReservedRoundSeat.getId();
         Long userId = givenUser.getId();
         CreateTicketRequest request = new CreateTicketRequest(roundSeatId, userId);
+        int remainingSeatBefore = roundRepository.getById(givenRound.getId()).getRemainingSeats();
 
         // When
         MvcResult result = mockMvc
@@ -143,6 +155,53 @@ class TicketControllerTest extends BaseControllerTest {
         RoundSeat roundSeat = roundSeatService.getRoundSeat(roundSeatId);
         assertThat(
             roundSeat.getReservationStatus(), equalTo(ReservationStatus.WAITING_FOR_PAYMENT));
+        int remainingSeatAfter = roundRepository.getById(givenRound.getId()).getRemainingSeats();
+        assertThat(remainingSeatBefore, equalTo(10));
+        assertThat(remainingSeatBefore - 1, equalTo(remainingSeatAfter));
+    }
+
+    @Test
+    @DisplayName("티켓 생성 동시성 테스트 시 잔여 좌석이 1만 준다 ")
+    void testCreateTicketConcurrent() {
+        int THREAD_POOL_SIZE = 100;
+        ExecutorService es = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        int remainingSeatBefore = givenRound.getRemainingSeats();
+
+        for (int i = 0; i < THREAD_POOL_SIZE; i++) {
+            es.execute(() -> {
+                Long roundSeatId = givenUnReservedRoundSeat.getId();
+                Long userId = givenUser.getId();
+                CreateTicketRequest request = new CreateTicketRequest(roundSeatId, userId);
+
+                try {
+                    MvcResult result = mockMvc
+                        .perform(
+                            post("/v1/tickets")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request))
+                        )
+                        .andExpect(
+                            MockMvcResultMatchers
+                                .jsonPath("$.common.internalHttpStatusCode")
+                                .value(200)
+                        )
+                        .andReturn();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        es.shutdown();
+        try {
+            es.awaitTermination(10, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertThat(remainingSeatBefore, equalTo(10));
+        int remainingSeatAfter = roundRepository.findRemainingSeat(givenRound.getId());
+        assertThat(remainingSeatBefore - 1, equalTo(remainingSeatAfter));
     }
 
     @Test
