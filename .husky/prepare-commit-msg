@@ -3,13 +3,12 @@
 Font_RED='\033[91m'
 Font_CLEAR='\033[0m' # No Color
 
-
 PREFIX_LIST=( 
- [Feature]=1
- [Refactor]=1
- [Fix]=1
- [Test]=1
- [Chore]=1
+ Feature
+ Refactor
+ Fix
+ Test
+ Chore
 )
 
 if [ -z "$BRANCHES_TO_SKIP" ]; then
@@ -40,10 +39,10 @@ if ! [[ "$COMMIT_MESSAGE" =~ ":" ]];then
     exit 1
 fi
 
-if [[ -z ${PREFIX_LIST[$PREFIX]} ]]; then
+if !(printf '%s\n' "${PREFIX_LIST[@]}" | grep -xq $PREFIX); then
     printf "${Font_RED}[${PREFIX}] 는 존재 하지 않는 Prefix 입니다.${Font_CLEAR}\n"
     echo  "사용가능한 Prefix 목록"
-    printf '%s\n' "${!PREFIX_LIST[@]}"
+    printf '%s\n' "${PREFIX_LIST[@]}"
     exit 1
 fi
 
