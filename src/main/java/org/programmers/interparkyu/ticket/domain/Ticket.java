@@ -32,9 +32,6 @@ public class Ticket extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus = PaymentStatus.WAITING;
 
-    @Version
-    private int version;
-
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
