@@ -98,7 +98,7 @@ DB_PASSWORD=userPassword
 
 > Project root 경로에 `.env` 파일 생성 후 `필요 환경 변수` 작성
 
-- EmvFile 플러그인 설정
+- EnvFile 플러그인 설정
 
 <details>
 <summary>설정 캡쳐 (펼치기)</summary>
