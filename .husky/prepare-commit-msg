@@ -30,7 +30,7 @@ BRANCH_IN_COMMIT=$(grep -c "$JIRA_ID" $1)
 
 TICKET=[$(git rev-parse --abbrev-ref HEAD | grep -Eo '^(\w+/)?(\w+[-_ ])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+' | tr "[:lower:]" "[:upper:]")]
 
-if [[ $TICKET == "[]" || "$COMMIT_MESSAGE" == "$TICKET"* ]];then
+if [[ $BRANCH_EXCLUDED -eq 1 || "$COMMIT_MESSAGE" == "$TICKET"* ]];then
   exit 0;
 fi
 
@@ -46,6 +46,6 @@ if !(printf '%s\n' "${PREFIX_LIST[@]}" | grep -xq $PREFIX); then
     exit 1
 fi
 
-if [ -n $JIRA_ID ] && ! [[ $BRANCH_EXCLUDED -eq 1 ]] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then 
+if [ -n $JIRA_ID ] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then 
   echo "[$JIRA_ID] $PREFIX: $MESSAGE" > $1
 fi
